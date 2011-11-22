@@ -2,14 +2,18 @@ package com.example.dal.valueobject;
 
 public abstract class ValueObject {
 
-	protected long id;
+	protected Long id;
 	protected String name;
 
 	public ValueObject() {
 		super();
 	}
 
-	public ValueObject(long id, String name) {
+	public ValueObject(String name){
+		this.name=name;
+	}
+	
+	public ValueObject(Long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -17,7 +21,7 @@ public abstract class ValueObject {
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -25,7 +29,7 @@ public abstract class ValueObject {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

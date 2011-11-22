@@ -4,10 +4,21 @@ public class UserVO extends ValueObject {
 
 	private String login;
 	private String password;
-	private long groupID;
+	private Long groupID;
 	private GroupVO group;
 
-	public UserVO(long id, String name, String login, String password, long groupID) {
+	public UserVO(){
+		
+	}
+	
+	public UserVO(String name, String login, String password, Long groupID) {
+		super(name);
+		this.login = login;
+		this.password = password;
+		this.groupID = groupID;
+	}
+
+	public UserVO(Long id, String name, String login, String password, Long groupID) {
 		super(id, name);
 		this.login = login;
 		this.password = password;
@@ -47,7 +58,7 @@ public class UserVO extends ValueObject {
 	/**
 	 * @return the groupID
 	 */
-	public long getGroupID() {
+	public Long getGroupID() {
 		return groupID;
 	}
 
@@ -55,7 +66,7 @@ public class UserVO extends ValueObject {
 	 * @param groupID
 	 *            the groupID to set
 	 */
-	public void setGroupID(int groupID) {
+	public void setGroupID(Long groupID) {
 		this.groupID = groupID;
 	}
 
@@ -72,6 +83,7 @@ public class UserVO extends ValueObject {
 	 */
 	public void setGroup(GroupVO group) {
 		this.group = group;
+		this.groupID = group.getId();
 	}
 
 	/*

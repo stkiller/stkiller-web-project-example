@@ -8,43 +8,38 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.example.bl.dataaccess.AccessManager;
+import com.example.bl.dataaccess.IAccessManager;
 import com.example.dal.exceptions.DBException;
 import com.example.dal.exceptions.NoSuchFactoryException;
 import com.example.dal.factories.DAOFactoryType;
 import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.RoleVO;
 import com.example.dal.valueobject.UserVO;
-import com.example.service.AccessManager;
 
 public class AccessManagerTest {
-	static AccessManager accessManager;
+	static IAccessManager accessManager;
 	static UserVO refUser;
 	static UserVO refUserWithGroup;
 	static GroupVO refGroup;
-	static GroupVO refGroupWithRole;
 	static RoleVO refRole;
-	static RoleVO refRoleWithGroup;
 
 	@BeforeClass
 	public static void before() {
-		refRole = new RoleVO(0, "FirstRole", "FirstRole description");
+		refRole = new RoleVO("FirstRole", "FirstRole description");
 
-		refGroup = new GroupVO(0, "FirstGroup", "FirstGroup description");
+		refGroup = new GroupVO("FirstGroup", "FirstGroup description");
 
-		refRoleWithGroup = new RoleVO(refRole.getId(), refRole.getName(), refRole.getDescription());
+		refRole.getGroups().add(refGroup);
 
-		refRoleWithGroup.getGroups().add(refGroup);
+		refGroup.getRoles().add(refRole);
 
-		refGroupWithRole = new GroupVO(refGroup.getId(), refGroup.getName(), refGroup.getDescription());
-
-		refGroupWithRole.getRoles().add(refRole);
-
-		refUser = new UserVO(0, "FirstUser", "FirstUserLogin", "UserPassword", refGroup.getId());
+		refUser = new UserVO("FirstUser", "FirstUserLogin", "UserPassword", refGroup.getId());
 
 		refUserWithGroup = new UserVO(refUser.getId(), refUser.getName(), refUser.getLogin(), refUser.getPassword(),
 				refUser.getGroupID());
 
-		refUserWithGroup.setGroup(refGroupWithRole);
+		refUserWithGroup.setGroup(refGroup);
 	}
 
 	@Test
@@ -72,8 +67,8 @@ public class AccessManagerTest {
 	public void testWriteGroup() {
 		try {
 			long result;
-			result = accessManager.writeGroup(refGroupWithRole);
-			Assert.assertTrue(result == refGroupWithRole.getId());
+			result = accessManager.writeGroup(refGroup);
+			Assert.assertTrue(result == refGroup.getId());
 		} catch (DBException e) {
 			Assert.fail(e.getMessage());
 		}
@@ -83,6 +78,7 @@ public class AccessManagerTest {
 	public void testWriteUser() {
 		try {
 			long result;
+			refUser.setGroupID(refGroup.getId());
 			result = accessManager.writeUser(refUser);
 			Assert.assertTrue(result == refUser.getId());
 		} catch (DBException e) {
@@ -109,8 +105,10 @@ public class AccessManagerTest {
 			List<UserVO> users = accessManager.retrieveUsersWithGroups();
 			Assert.assertNotNull(users);
 			Assert.assertTrue("There are no users in the list", 0 < users.size());
+			refUserWithGroup.setId(refUser.getId());
+			refUserWithGroup.setGroupID(refUser.getGroupID());
 			Assert.assertEquals(refUserWithGroup, users.get(0));
-			Assert.assertEquals(refGroupWithRole, users.get(0).getGroup());
+			Assert.assertEquals(refGroup, users.get(0).getGroup());
 		} catch (DBException ex) {
 			Assert.fail(ex.getMessage());
 		}
@@ -132,7 +130,7 @@ public class AccessManagerTest {
 		try {
 			UserVO actual = accessManager.retrieveUserWithGroup(refUser.getId());
 			Assert.assertEquals(refUserWithGroup, actual);
-			Assert.assertEquals(refGroupWithRole, actual.getGroup());
+			Assert.assertEquals(refGroup, actual.getGroup());
 		} catch (DBException ex) {
 			Assert.fail(ex.getMessage());
 		}
@@ -144,7 +142,7 @@ public class AccessManagerTest {
 			List<GroupVO> groups = accessManager.retriveGroups();
 			Assert.assertNotNull(groups);
 			Assert.assertTrue(0 < groups.size());
-			Assert.assertEquals(refGroupWithRole, groups.get(0));
+			Assert.assertEquals(refGroup, groups.get(0));
 		} catch (DBException ex) {
 			Assert.fail(ex.getMessage());
 		}
@@ -155,7 +153,7 @@ public class AccessManagerTest {
 		try {
 			GroupVO group = accessManager.retrieveGroup(refGroup.getId());
 			Assert.assertNotNull(group);
-			Assert.assertEquals(refGroupWithRole, group);
+			Assert.assertEquals(refGroup, group);
 		} catch (DBException ex) {
 			Assert.fail(ex.getMessage());
 		}
@@ -167,7 +165,7 @@ public class AccessManagerTest {
 			List<RoleVO> roles = accessManager.retrieveRoles();
 			Assert.assertNotNull(roles);
 			Assert.assertTrue(0 < roles.size());
-			Assert.assertEquals(refRoleWithGroup, roles.get(0));
+			Assert.assertEquals(refRole, roles.get(0));
 		} catch (DBException ex) {
 			Assert.fail(ex.getMessage());
 		}
@@ -178,13 +176,13 @@ public class AccessManagerTest {
 		try {
 			RoleVO role = accessManager.retrieveRole(refRole.getId());
 			Assert.assertNotNull(role);
-			Assert.assertEquals(refRoleWithGroup, role);
+			Assert.assertEquals(refRole, role);
 		} catch (DBException ex) {
 			Assert.fail(ex.getMessage());
 		}
 	}
 
-	@AfterClass
+	//@AfterClass
 	public static void after() {
 		try {
 			boolean result = accessManager.removeUser(refUser);

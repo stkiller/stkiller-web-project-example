@@ -6,5 +6,7 @@
 	<classpathentry kind="lib" path="lib/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
 	<classpathentry kind="lib" path="lib/jtds-1.2.5.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="lib/jstl-api-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/jstl-impl-1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
