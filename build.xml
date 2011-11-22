@@ -1,0 +1,109 @@
+<project name="MyProject" default="tomcat-start" basedir=".">
+	<description>
+        simple example build file
+    </description>
+	<!-- set global properties for this build -->
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<property name="dist" location="dist" />
+	<property name="dist.root" location="C:\Tomcat_7_0_22\webapps\WebExample" />
+	<property name="dist.webinf" location="${dist.root}\WEB-INF" />
+	<property name="dist.webinf.classes" location="${dist.webinf}\classes" />
+	<property name="dist.webinf.lib" location="${dist.webinf}\lib" />
+	<property name="lib.dir" location="lib" />
+	<property name="web.dir" location="web"/>
+	<property name="tomcat.home" location="C:\Tomcat_7_0_22" />
+
+	<target name="dir.check">
+	    <condition property="dir.exists">
+	      <available file="${dist.webinf}" type="dir"/>
+	    </condition>
+	  </target>
+	
+	<path id="compile.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${ant.library.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="clean" description="clean up" depends="dir.check" if="dir.exists">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+		<delete includeemptydirs="true">
+			<fileset dir="${dist.webinf.lib}" includes="**/*" defaultexcludes="false" />
+		</delete>
+		<delete includeemptydirs="true">
+			<fileset dir="${dist.root}" includes="**/*" defaultexcludes="false" />
+		</delete>
+	</target>
+
+	<target name="init" depends="clean">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<mkdir dir="${build}" />
+		<mkdir dir="${dist.webinf}" />
+		<mkdir dir="${dist.webinf.classes}" />
+		<mkdir dir="${dist.webinf.lib}" />
+	</target>
+
+	<target name="compile" depends="init" description="compile the source ">
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${src}" destdir="${build}">
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+
+	<target name="dist" depends="compile" description="generate the distribution">
+		<copy todir="${dist.webinf.classes}">
+			<fileset dir="${build}">
+				<include name="**/*.class" />
+				<exclude name="**/test/**" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.webinf}">
+			<fileset dir="etc" />
+		</copy>
+		<copy todir="${dist.webinf.lib}">
+			<fileset dir="${lib.dir}" excludes="servlet-api.jar junit.jar org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+		</copy>
+		<copy todir="${dist.root}">
+			<fileset dir="${web.dir}" />
+		</copy>
+	</target>
+
+	<target name="tomcat-start" depends="dist">
+		<echo>---------------------------------------</echo>
+		<echo>- target - tomcat-start</echo>
+		<echo>-</echo>
+		<echo>- starting tomcat</echo>
+		<echo>---------------------------------------</echo>
+		<java classname="org.apache.catalina.startup.Bootstrap" failonerror="true" fork="true">
+			<classpath path="${tomcat.home}/bin/bootstrap.jar:${tomcat.home}/bin/tomcat-juli.jar" />
+			<jvmarg value="-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager" />
+			<jvmarg value="-Djava.util.logging.config.file=${tomcat.home}/conf/logging.properties" />
+			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
+			<jvmarg value="-Dcatalina.base=${tomcat.home}" />
+			<jvmarg value="-Djava.io.tmpdir=${tomcat.home}/temp" />
+			<arg line="start" />
+		</java>
+	</target>
+
+	<target name="tomcat-stop">
+		<echo>---------------------------------------</echo>
+		<echo>- target - tomcat-stop</echo>
+		<echo>-</echo>
+		<echo>- stopping tomcat</echo>
+		<echo>---------------------------------------</echo>
+
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true">
+			<classpath path="${tomcat.home}/bin/bootstrap.jar:${tomcat.home}/bin/tomcat-juli.jar" />
+			<jvmarg value="-Dcatalina.home=${tomcat.home}" />
+
+			<arg line="stop" />
+		</java>
+	</target>
+</project>

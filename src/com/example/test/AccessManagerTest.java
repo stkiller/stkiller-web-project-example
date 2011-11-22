@@ -184,7 +184,7 @@ public class AccessManagerTest {
 		}
 	}
 
-	//@AfterClass
+	@AfterClass
 	public static void after() {
 		try {
 			boolean result = accessManager.removeUser(refUser);
