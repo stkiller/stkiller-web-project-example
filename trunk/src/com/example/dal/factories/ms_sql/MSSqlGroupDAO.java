@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.example.dal.dao.IManyToManyDAO;
+import com.example.dal.factories.IdentityIncrementor;
 import com.example.dal.valueobject.GroupVO;
 
 public class MSSqlGroupDAO implements IManyToManyDAO<GroupVO> {
@@ -87,6 +88,9 @@ public class MSSqlGroupDAO implements IManyToManyDAO<GroupVO> {
 
 	@Override
 	public long insert(GroupVO item, Connection connection) throws SQLException {
+		if(item.getId()==null){
+			IdentityIncrementor.incrementIdentity(item);
+		}
 		Statement statement = connection.createStatement();
 		statement.executeUpdate(String.format(INSERT, item.getId(), item.getName(), item.getDescription()));
 		return item.getId();

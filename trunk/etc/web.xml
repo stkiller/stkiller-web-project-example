@@ -3,4 +3,20 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 version="3.0">
+<context-param>
+	<param-name>dbUser</param-name>
+	<param-value>test</param-value>
+</context-param>
+<context-param>
+	<param-name>dbPass</param-name>
+	<param-value>test</param-value>
+</context-param>
+<context-param>
+	<param-name>dbURL</param-name>
+	<param-value>jdbc:jtds:sqlserver://localhost:1433/WebTest</param-value>
+</context-param>
+<context-param>
+	<param-name>dbType</param-name>
+	<param-value>MS_SQL</param-value>
+</context-param>
 </web-app>

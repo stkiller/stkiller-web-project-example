@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.example.dal.dao.IBaseDao;
+import com.example.dal.factories.IdentityIncrementor;
 import com.example.dal.valueobject.UserVO;
 
 public class MSSqlUserDAO implements IBaseDao<UserVO> {
@@ -24,7 +25,7 @@ public class MSSqlUserDAO implements IBaseDao<UserVO> {
 		ResultSet resSet = statement.executeQuery(SELECT_ALL);
 		while (resSet.next()) {
 			UserVO current = new UserVO(resSet.getLong("id"), resSet.getString("name"), resSet.getString("login"),
-					resSet.getString("password"), resSet.getInt("group_id"));
+					resSet.getString("password"), resSet.getLong("group_id"));
 			result.add(current);
 		}
 		return result;
@@ -37,7 +38,7 @@ public class MSSqlUserDAO implements IBaseDao<UserVO> {
 		ResultSet resSet = statement.executeQuery(String.format(SELECT, id));
 		if (resSet.next()) {
 			result = new UserVO(resSet.getLong("id"), resSet.getString("name"), resSet.getString("login"),
-					resSet.getString("password"), resSet.getInt("group_id"));
+					resSet.getString("password"), resSet.getLong("group_id"));
 		}
 		return result;
 	}
@@ -59,6 +60,9 @@ public class MSSqlUserDAO implements IBaseDao<UserVO> {
 
 	@Override
 	public long insert(UserVO item, Connection connection) throws SQLException {
+		if(item.getId()==null){
+			IdentityIncrementor.incrementIdentity(item);
+		}
 		Statement statement = connection.createStatement();
 		statement.executeUpdate(String.format(INSERT, item.getId(), item.getName(), item.getLogin(),
 				item.getPassword(), item.getGroupID()));

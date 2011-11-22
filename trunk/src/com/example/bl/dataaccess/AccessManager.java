@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.service;
+package com.example.bl.dataaccess;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,6 +14,7 @@ import com.example.dal.exceptions.DBException;
 import com.example.dal.exceptions.NoSuchFactoryException;
 import com.example.dal.factories.AbstractDAOFactory;
 import com.example.dal.factories.DAOFactoryType;
+import com.example.dal.factories.IdentityIncrementor;
 import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.RoleVO;
 import com.example.dal.valueobject.UserVO;
@@ -22,7 +23,7 @@ import com.example.dal.valueobject.UserVO;
  * @author stkiller
  * 
  */
-public class AccessManager {
+public class AccessManager implements IAccessManager {
 	private static final int TRANSACTION_ISOLATION = Connection.TRANSACTION_REPEATABLE_READ;
 
 	AbstractDAOFactory abFactory;
@@ -49,6 +50,19 @@ public class AccessManager {
 		userDAO = abFactory.getUserDAO();
 		groupDAO = abFactory.getGroupDAO();
 		roleDAO = abFactory.getRoleDAO();
+		List<UserVO> users;
+		try {
+			users = retrieveUsers();
+			List<GroupVO> groups = retriveGroups();
+			List<RoleVO> roles = retrieveRoles();
+			IdentityIncrementor.getIdetities().put(UserVO.class, new Long(users.size()+1));
+			IdentityIncrementor.getIdetities().put(GroupVO.class, new Long(groups.size()+1));
+			IdentityIncrementor.getIdetities().put(RoleVO.class, new Long(roles.size()+1));
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -95,11 +109,12 @@ public class AccessManager {
 		}
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return a list of {@link UserVO} from the used DB
-	 * @throws DBException
+	 * @see com.example.bl.dataaccess.IAccessManager#retrieveUsers()
 	 */
+	@Override
 	public List<UserVO> retrieveUsers() throws DBException {
 		Connection connection = retrieveConnection();
 		try {
@@ -114,11 +129,12 @@ public class AccessManager {
 		}
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return a list of {@link UserVO} with filled groups
-	 * @throws DBException
+	 * @see com.example.bl.dataaccess.IAccessManager#retrieveUsersWithGroups()
 	 */
+	@Override
 	public List<UserVO> retrieveUsersWithGroups() throws DBException {
 		Connection connection = retrieveConnection();
 		try {
@@ -136,14 +152,12 @@ public class AccessManager {
 		}
 	}
 
-	/**
-	 * Retrieves the {@link UserVO} with specified ID
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param id
-	 *            - id of target user
-	 * @return {@link UserVO}
-	 * @throws DBException
+	 * @see com.example.bl.dataaccess.IAccessManager#retrieveUser(long)
 	 */
+	@Override
 	public UserVO retrieveUser(long id) throws DBException {
 		Connection connection = retrieveConnection();
 		try {
@@ -158,14 +172,12 @@ public class AccessManager {
 		}
 	}
 
-	/**
-	 * Retrieves the {@link UserVO} with {@link GroupVO} filled
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param id
-	 *            - id of target user
-	 * @return {@link UserVO} with {@link GroupVO} filled
-	 * @throws DBException
+	 * @see com.example.bl.dataaccess.IAccessManager#retrieveUserWithGroup(long)
 	 */
+	@Override
 	public UserVO retrieveUserWithGroup(long id) throws DBException {
 		Connection connection = retrieveConnection();
 		try {
@@ -181,14 +193,13 @@ public class AccessManager {
 		}
 	}
 
-	/**
-	 * Writes the specified {@link UserVO}
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param userVO
-	 *            - {@link UserVO} that should be written to the DB
-	 * @return the id of written user.
-	 * @throws DBException
+	 * @see com.example.bl.dataaccess.IAccessManager#writeUser(com.example.dal.
+	 * valueobject.UserVO)
 	 */
+	@Override
 	public long writeUser(UserVO userVO) throws DBException {
 		if (userVO == null) {
 			return -1;
@@ -209,14 +220,13 @@ public class AccessManager {
 		}
 	}
 
-	/**
-	 * Removes the specified {@link UserVO}
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param user
-	 *            - {@link UserVO} that should be deleted
-	 * @return true if the user was successfully deleted, false otherwise
-	 * @throws DBException
+	 * @see com.example.bl.dataaccess.IAccessManager#removeUser(com.example.dal.
+	 * valueobject.UserVO)
 	 */
+	@Override
 	public boolean removeUser(UserVO user) throws DBException {
 		if (user == null) {
 			return false;
@@ -234,12 +244,12 @@ public class AccessManager {
 		}
 	}
 
-	/**
-	 * Retrieves a list of {@link GroupVO}
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return List of {@link GroupVO}
-	 * @throws DBException
+	 * @see com.example.bl.dataaccess.IAccessManager#retriveGroups()
 	 */
+	@Override
 	public List<GroupVO> retriveGroups() throws DBException {
 		Connection connection = retrieveConnection();
 		try {
@@ -263,14 +273,12 @@ public class AccessManager {
 		}
 	}
 
-	/**
-	 * Retrieves the {@link GroupVO} with specified groupID
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param id
-	 *            - the id of target {@link GroupVO}
-	 * @return {@link GroupVO} if such a group is presented, null otherwise
-	 * @throws DBException
+	 * @see com.example.bl.dataaccess.IAccessManager#retrieveGroup(long)
 	 */
+	@Override
 	public GroupVO retrieveGroup(long id) throws DBException {
 		Connection connection = retrieveConnection();
 		try {
@@ -292,14 +300,13 @@ public class AccessManager {
 		}
 	}
 
-	/**
-	 * Write the specified {@link GroupVO}
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param group
-	 *            - {@link GroupVO} object that should be written
-	 * @return the id of written {@link GroupVO}
-	 * @throws DBException
+	 * @see com.example.bl.dataaccess.IAccessManager#writeGroup(com.example.dal.
+	 * valueobject.GroupVO)
 	 */
+	@Override
 	public long writeGroup(GroupVO group) throws DBException {
 		if (group == null) {
 			return -1;
@@ -326,7 +333,7 @@ public class AccessManager {
 	private long writeGroup(GroupVO group, Connection connection) throws DBException {
 		try {
 			// check if group is already in DB
-			if (groupDAO.retrieve(group.getId(), connection) == null) {
+			if (group.getId() == null) {
 				groupDAO.insert(group, connection);
 			} else {
 				groupDAO.update(group, connection);
@@ -358,14 +365,14 @@ public class AccessManager {
 		}
 	}
 
-	/**
-	 * Remove the specified {@link GroupVO} object
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param group
-	 *            - {@link GroupVO} object that should be removed from the DB
-	 * @return true if the object was successfully removed, false otherwise
-	 * @throws DBException
+	 * @see
+	 * com.example.bl.dataaccess.IAccessManager#removeGroup(com.example.dal.
+	 * valueobject.GroupVO)
 	 */
+	@Override
 	public boolean removeGroup(GroupVO group) throws DBException {
 		if (group == null) {
 			return false;
@@ -391,12 +398,12 @@ public class AccessManager {
 		}
 	}
 
-	/**
-	 * Retrieves a list of {@link RoleVO} objects with associated groups
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return a list of {@link RoleVO} objects
-	 * @throws DBException
+	 * @see com.example.bl.dataaccess.IAccessManager#retrieveRoles()
 	 */
+	@Override
 	public List<RoleVO> retrieveRoles() throws DBException {
 		Connection connection = retrieveConnection();
 		try {
@@ -420,14 +427,12 @@ public class AccessManager {
 		}
 	}
 
-	/**
-	 * Retrieves a single {@link RoleVO} object with associated groups
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param id
-	 *            - id of target {@link RoleVO} object
-	 * @return the target {@link RoleVO} object, if it's found, null otherwise
-	 * @throws DBException
+	 * @see com.example.bl.dataaccess.IAccessManager#retrieveRole(long)
 	 */
+	@Override
 	public RoleVO retrieveRole(long id) throws DBException {
 		Connection connection = retrieveConnection();
 		try {
@@ -453,13 +458,13 @@ public class AccessManager {
 
 	}
 
-	/**
-	 * Writes {@link RoleVO} and associated {@link GroupVO} objects
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param {@link RoleVO} that should be written
-	 * @return the id of written {@link RoleVO} object
-	 * @throws DBException
+	 * @see com.example.bl.dataaccess.IAccessManager#writeRole(com.example.dal.
+	 * valueobject.RoleVO)
 	 */
+	@Override
 	public long writeRole(RoleVO role) throws DBException {
 		if (role == null) {
 			return -1;
@@ -467,7 +472,7 @@ public class AccessManager {
 		Connection connection = retrieveConnection();
 		try {
 			// check if role is already in DB
-			if (roleDAO.retrieve(role.getId(), connection) == null) {
+			if (role.getId() == null) {
 				// insert it
 				roleDAO.insert(role, connection);
 			} else {
@@ -483,7 +488,7 @@ public class AccessManager {
 						continue;
 					}
 					// check if that group already exists in DB
-					if (groupDAO.retrieve(group.getId(), connection) == null) {
+					if (group.getId() == null) {
 						// if not - insert it
 						groupDAO.insert(group, connection);
 					} else {
@@ -518,15 +523,13 @@ public class AccessManager {
 		}
 	}
 
-	/**
-	 * Remove the specified {@link RoleVO} object
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param role
-	 *            - {@link RoleVO} object that should be removed
-	 * @return true is the target object is deleted successfully, false
-	 *         otherwise
-	 * @throws DBException
+	 * @see com.example.bl.dataaccess.IAccessManager#removeRole(com.example.dal.
+	 * valueobject.RoleVO)
 	 */
+	@Override
 	public boolean removeRole(RoleVO role) throws DBException {
 		if (role == null) {
 			return false;

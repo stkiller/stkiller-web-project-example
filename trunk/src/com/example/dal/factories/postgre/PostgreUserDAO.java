@@ -24,7 +24,7 @@ public class PostgreUserDAO implements IBaseDao<UserVO> {
 		ResultSet resSet = statement.executeQuery(SELECT_ALL);
 		while (resSet.next()) {
 			UserVO current = new UserVO(resSet.getLong("id"), resSet.getString("name"), resSet.getString("login"),
-					resSet.getString("password"), resSet.getInt("group_id"));
+					resSet.getString("password"), resSet.getLong("group_id"));
 			result.add(current);
 		}
 		return result;
@@ -37,7 +37,7 @@ public class PostgreUserDAO implements IBaseDao<UserVO> {
 		ResultSet resSet = statement.executeQuery(String.format(SELECT, id));
 		if (resSet.next()) {
 			result = new UserVO(resSet.getLong("id"), resSet.getString("name"), resSet.getString("login"),
-					resSet.getString("password"), resSet.getInt("group_id"));
+					resSet.getString("password"), resSet.getLong("group_id"));
 		}
 		return result;
 	}
