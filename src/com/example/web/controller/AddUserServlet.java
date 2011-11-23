@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.example.bl.dataaccess.IAccessManager;
+import com.example.bl.dataaccess.IBLAccessManager;
+import com.example.dal.dataaccess.IAccessManager;
 import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.UserVO;
+import com.example.web.helper.BeanUtilsHelper;
 
 @WebServlet(urlPatterns = { "/addUser.html" })
 public class AddUserServlet extends HttpServlet {
@@ -21,6 +23,7 @@ public class AddUserServlet extends HttpServlet {
 	private static final String ADD_USER_JSP = "/WEB-INF/view/AddUser.jsp";
 
 	private IAccessManager accessManager;
+	private BeanUtilsHelper beanUtilsHelper;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -41,8 +44,7 @@ public class AddUserServlet extends HttpServlet {
 			reqDispatcher.forward(req, resp);
 		} else {
 			UserVO user = new UserVO();
-			user.setLogin(req.getParameter("login"));
-			user.setPassword(req.getParameter("pass"));
+			beanUtilsHelper.populateBean(user, req.getParameterMap());
 			user.setGroup(accessManager.retrieveGroup(Long.parseLong(req.getParameter("group_id"))));
 			accessManager.writeUser(user);
 			resp.sendRedirect("index.html");
@@ -53,7 +55,8 @@ public class AddUserServlet extends HttpServlet {
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		super.init();
-		accessManager = (IAccessManager) getServletContext().getAttribute("accessManager");
+		accessManager = (IBLAccessManager) getServletContext().getAttribute("accessManager");
+		beanUtilsHelper = (BeanUtilsHelper) getServletContext().getAttribute("beanUtils");
 	}
 
 }

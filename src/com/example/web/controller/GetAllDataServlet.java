@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.example.bl.dataaccess.IAccessManager;
+import com.example.bl.dataaccess.IBLAccessManager;
+import com.example.dal.dataaccess.IAccessManager;
 import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.RoleVO;
 import com.example.dal.valueobject.UserVO;
@@ -47,7 +48,7 @@ public class GetAllDataServlet extends HttpServlet {
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		super.init();
-		accessManager = (IAccessManager) getServletContext().getAttribute("accessManager");
+		accessManager = (IBLAccessManager) getServletContext().getAttribute("accessManager");
 	}
 	
 	

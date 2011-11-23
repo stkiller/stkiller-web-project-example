@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.bl.dataaccess;
+package com.example.dal.dataaccess;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -167,7 +167,7 @@ public class AccessManager implements IAccessManager {
 	 * @see com.example.bl.dataaccess.IAccessManager#retrieveUser(long)
 	 */
 	@Override
-	public UserVO retrieveUser(long id) throws DBException {
+	public UserVO retrieveUser(Long id) throws DBException {
 		Connection connection = retrieveConnection();
 		try {
 			UserVO result = userDAO.retrieve(id, connection);
@@ -187,7 +187,7 @@ public class AccessManager implements IAccessManager {
 	 * @see com.example.bl.dataaccess.IAccessManager#retrieveUserWithGroup(long)
 	 */
 	@Override
-	public UserVO retrieveUserWithGroup(long id) throws DBException {
+	public UserVO retrieveUserWithGroup(Long id) throws DBException {
 		Connection connection = retrieveConnection();
 		try {
 			UserVO result = userDAO.retrieve(id, connection);
@@ -288,7 +288,7 @@ public class AccessManager implements IAccessManager {
 	 * @see com.example.bl.dataaccess.IAccessManager#retrieveGroup(long)
 	 */
 	@Override
-	public GroupVO retrieveGroup(long id) throws DBException {
+	public GroupVO retrieveGroup(Long id) throws DBException {
 		Connection connection = retrieveConnection();
 		try {
 			GroupVO result = groupDAO.retrieve(id, connection);
@@ -442,7 +442,7 @@ public class AccessManager implements IAccessManager {
 	 * @see com.example.bl.dataaccess.IAccessManager#retrieveRole(long)
 	 */
 	@Override
-	public RoleVO retrieveRole(long id) throws DBException {
+	public RoleVO retrieveRole(Long id) throws DBException {
 		Connection connection = retrieveConnection();
 		try {
 			RoleVO result = roleDAO.retrieve(id, connection);
