@@ -4,7 +4,6 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -139,7 +138,7 @@ public class AccessManagerTest {
 	@Test
 	public void testRetriveGroups() {
 		try {
-			List<GroupVO> groups = accessManager.retriveGroups();
+			List<GroupVO> groups = accessManager.retrieveGroups();
 			Assert.assertNotNull(groups);
 			Assert.assertTrue(0 < groups.size());
 			Assert.assertEquals(refGroup, groups.get(0));

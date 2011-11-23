@@ -12,8 +12,8 @@ public class IdentityIncrementor {
 		if(!idetities.containsKey(valueObject.getClass())){
 			idetities.put(valueObject.getClass(), 0l);
 		}
-		valueObject.setId(idetities.get(valueObject.getClass()));
 		idetities.put(valueObject.getClass(), idetities.get(valueObject.getClass())+1);
+		valueObject.setId(idetities.get(valueObject.getClass()));
 	}
 
 	public static Map<Class<?>, Long> getIdetities() {
