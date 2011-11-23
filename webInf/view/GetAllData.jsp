@@ -5,10 +5,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<LINK REL=StyleSheet HREF="style.css" TYPE="text/css">
 <title>Insert title here</title>
 </head>
 <body>
- 	<div style="width: 75%; background-color: silver; margin-left: auto; margin-right: auto;">
+ 	<div class="inner">
     <c:import url="/WEB-INF/view/Header.jsp"></c:import>
     <center>
     <h3>Users</h3>
