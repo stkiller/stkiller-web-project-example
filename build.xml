@@ -3,7 +3,7 @@
         simple example build file
     </description>
 	<!-- set global properties for this build -->
-	<property name="etc" location="etc"/>
+	<property name="webInf" location="webInf"/>
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
@@ -66,7 +66,7 @@
 			</fileset>
 		</copy>
 		<copy todir="${dist.webinf}">
-			<fileset dir="${etc}" />
+			<fileset dir="${webInf}" />
 		</copy>
 		<copy todir="${dist.webinf.lib}">
 			<fileset dir="${lib.dir}" excludes="servlet-api.jar junit.jar org.hamcrest.core_1.1.0.v20090501071000.jar"/>
