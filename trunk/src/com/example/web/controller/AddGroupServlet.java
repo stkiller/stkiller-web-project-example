@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.example.bl.dataaccess.IAccessManager;
+import com.example.bl.dataaccess.IBLAccessManager;
+import com.example.dal.dataaccess.IAccessManager;
 import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.RoleVO;
+import com.example.web.helper.BeanUtilsHelper;
 
 @WebServlet(urlPatterns={"/addGroup.html"})
 public class AddGroupServlet extends HttpServlet {
@@ -21,6 +23,7 @@ public class AddGroupServlet extends HttpServlet {
 	private static final String ADD_GROUP_JSP = "/WEB-INF/view/AddGroup.jsp";
 
 	private IAccessManager accessManager;
+	private BeanUtilsHelper beanUtilsHelper;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,8 +45,7 @@ public class AddGroupServlet extends HttpServlet {
 		} else {
 			try {
 				GroupVO group = new GroupVO();
-				group.setName(req.getParameter("name"));
-				group.setDescription(req.getParameter("description"));
+				beanUtilsHelper.populateBean(group, req.getParameterMap());
 				List<RoleVO> roles = new ArrayList<RoleVO>();
 				for (String roleID : req.getParameterValues("roles_id")) {
 					if(roleID==null){
@@ -64,6 +66,7 @@ public class AddGroupServlet extends HttpServlet {
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		super.init();
-		accessManager = (IAccessManager) getServletContext().getAttribute("accessManager");
+		accessManager = (IBLAccessManager) getServletContext().getAttribute("accessManager");
+		beanUtilsHelper = (BeanUtilsHelper) getServletContext().getAttribute("beanUtils");
 	}
 }

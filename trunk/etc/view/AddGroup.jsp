@@ -14,7 +14,7 @@
 		Group name : <input type="text" name="name"/><br/>
 		Group description : <input type="text" name="description"/><br/>
 		Group roles : 	<c:forEach var="role" items="${roles}">
-							<input type="checkbox" name="roles_id" value="${role.id}"/>${role.id}<br/>
+							<input type="checkbox" name="roles_id" value="${role.id}"/>${role.name}<br/>
 						</c:forEach>
 	 <input type="submit" value="Submit">
 	</form>

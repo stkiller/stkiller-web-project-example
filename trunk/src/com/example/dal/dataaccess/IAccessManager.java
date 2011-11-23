@@ -1,4 +1,4 @@
-package com.example.bl.dataaccess;
+package com.example.dal.dataaccess;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public interface IAccessManager {
 	 * @return {@link UserVO}
 	 * @throws DBException
 	 */
-	public abstract UserVO retrieveUser(long id);
+	public abstract UserVO retrieveUser(Long id);
 
 	/**
 	 * Retrieves the {@link UserVO} with {@link GroupVO} filled
@@ -41,7 +41,7 @@ public interface IAccessManager {
 	 * @return {@link UserVO} with {@link GroupVO} filled
 	 * @throws DBException
 	 */
-	public abstract UserVO retrieveUserWithGroup(long id);
+	public abstract UserVO retrieveUserWithGroup(Long id);
 
 	/**
 	 * Writes the specified {@link UserVO}
@@ -79,7 +79,7 @@ public interface IAccessManager {
 	 * @return {@link GroupVO} if such a group is presented, null otherwise
 	 * @throws DBException
 	 */
-	public abstract GroupVO retrieveGroup(long id);
+	public abstract GroupVO retrieveGroup(Long id);
 
 	/**
 	 * Write the specified {@link GroupVO}
@@ -117,7 +117,7 @@ public interface IAccessManager {
 	 * @return the target {@link RoleVO} object, if it's found, null otherwise
 	 * @throws DBException
 	 */
-	public abstract RoleVO retrieveRole(long id);
+	public abstract RoleVO retrieveRole(Long id);
 
 	/**
 	 * Writes {@link RoleVO} and associated {@link GroupVO} objects

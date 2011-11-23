@@ -7,8 +7,8 @@ import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.example.bl.dataaccess.AccessManager;
-import com.example.bl.dataaccess.IAccessManager;
+import com.example.dal.dataaccess.AccessManager;
+import com.example.dal.dataaccess.IAccessManager;
 import com.example.dal.exceptions.DBException;
 import com.example.dal.exceptions.NoSuchFactoryException;
 import com.example.dal.factories.DAOFactoryType;

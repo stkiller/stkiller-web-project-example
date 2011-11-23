@@ -11,8 +11,9 @@
     <c:import url="/WEB-INF/view/Header.jsp"></c:import>
     <center>
 	<form action="addUser.html" method="post">
+	    User name : <input type="text" name="name"/><br/>
 		User login : <input type="text" name="login"/><br/>
-		User pass : <input type="password" name="pass"/><br/>
+		User pass : <input type="password" name="password"/><br/>
 		User group : <select name="group_id">
 							<c:forEach var="group" items="${groups}">
 								<option value="${group.id }">${group.name }</option>
