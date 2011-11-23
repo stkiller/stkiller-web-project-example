@@ -1,6 +1,7 @@
 package com.example.web.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -12,13 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.example.bl.dataaccess.IAccessManager;
 import com.example.dal.valueobject.GroupVO;
-import com.example.dal.valueobject.UserVO;
+import com.example.dal.valueobject.RoleVO;
 
-@WebServlet(urlPatterns = { "/addUser.html" })
-public class AddUserServlet extends HttpServlet {
-
-	private static final long serialVersionUID = -390150401389923507L;
-	private static final String ADD_USER_JSP = "/WEB-INF/view/AddUser.jsp";
+@WebServlet(urlPatterns={"/addGroup.html"})
+public class AddGroupServlet extends HttpServlet {
+	private static final long serialVersionUID = -668656867873917796L;
+	private static final String ADD_GROUP_JSP = "/WEB-INF/view/AddGroup.jsp";
 
 	private IAccessManager accessManager;
 
@@ -34,18 +34,29 @@ public class AddUserServlet extends HttpServlet {
 
 	private void parseRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		if (req.getParameterMap().size() <= 0) {
-			List<GroupVO> groups;
-			groups = accessManager.retrieveGroups();
-			req.setAttribute("groups", groups);
-			RequestDispatcher reqDispatcher = req.getRequestDispatcher(ADD_USER_JSP);
+			List<RoleVO> roles;
+			roles = accessManager.retrieveRoles();
+			req.setAttribute("roles", roles);
+			RequestDispatcher reqDispatcher = req.getRequestDispatcher(ADD_GROUP_JSP);
 			reqDispatcher.forward(req, resp);
 		} else {
-			UserVO user = new UserVO();
-			user.setLogin(req.getParameter("login"));
-			user.setPassword(req.getParameter("pass"));
-			user.setGroup(accessManager.retrieveGroup(Long.parseLong(req.getParameter("group_id"))));
-			accessManager.writeUser(user);
-			resp.sendRedirect("index.html");
+			try {
+				GroupVO group = new GroupVO();
+				group.setName(req.getParameter("name"));
+				group.setDescription(req.getParameter("description"));
+				List<RoleVO> roles = new ArrayList<RoleVO>();
+				for (String roleID : req.getParameterValues("roles_id")) {
+					if(roleID==null){
+						continue;
+					}
+					roles.add(accessManager.retrieveRole(Long.parseLong(roleID)));
+				}
+				group.setRoles(roles);
+				accessManager.writeGroup(group);
+				resp.sendRedirect("index.html");
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 
@@ -55,5 +66,4 @@ public class AddUserServlet extends HttpServlet {
 		super.init();
 		accessManager = (IAccessManager) getServletContext().getAttribute("accessManager");
 	}
-
 }

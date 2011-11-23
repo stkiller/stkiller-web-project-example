@@ -1,6 +1,6 @@
 package com.example.dal.valueobject;
 
-public abstract class ValueObject {
+public abstract class ValueObject implements Comparable<ValueObject>{
 
 	protected Long id;
 	protected String name;
@@ -97,4 +97,13 @@ public abstract class ValueObject {
 		return true;
 	}
 
+	@Override
+	public int compareTo(ValueObject o) {
+		if(o==null || o.getId()==null){
+			return -1;
+		}
+		return this.getId().compareTo(o.getId());
+	}
+
+	
 }

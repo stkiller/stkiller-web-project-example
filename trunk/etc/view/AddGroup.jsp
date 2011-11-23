@@ -8,16 +8,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-    <c:import url="/WEB-INF/view/Header.jsp"></c:import>
+<c:import url="/WEB-INF/view/Header.jsp"></c:import>
     <center>
-	<form action="addUser.html" method="post">
-		User login : <input type="text" name="login"/><br/>
-		User pass : <input type="password" name="pass"/><br/>
-		User group : <select name="group_id">
-							<c:forEach var="group" items="${groups}">
-								<option value="${group.id }">${group.name }</option>
-							</c:forEach>
-						</select>
+	<form action="addGroup.html" method="post">
+		Group name : <input type="text" name="name"/><br/>
+		Group description : <input type="text" name="description"/><br/>
+		Group roles : 	<c:forEach var="role" items="${roles}">
+							<input type="checkbox" name="roles_id" value="${role.id}"/>${role.id}<br/>
+						</c:forEach>
 	 <input type="submit" value="Submit">
 	</form>
 	</center>

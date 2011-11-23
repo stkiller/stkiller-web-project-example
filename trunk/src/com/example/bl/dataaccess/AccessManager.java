@@ -5,6 +5,7 @@ package com.example.bl.dataaccess;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -50,19 +51,27 @@ public class AccessManager implements IAccessManager {
 		userDAO = abFactory.getUserDAO();
 		groupDAO = abFactory.getGroupDAO();
 		roleDAO = abFactory.getRoleDAO();
-		List<UserVO> users;
-		try {
-			users = retrieveUsers();
-			List<GroupVO> groups = retriveGroups();
-			List<RoleVO> roles = retrieveRoles();
-			IdentityIncrementor.getIdetities().put(UserVO.class, new Long(users.size()+1));
-			IdentityIncrementor.getIdetities().put(GroupVO.class, new Long(groups.size()+1));
-			IdentityIncrementor.getIdetities().put(RoleVO.class, new Long(roles.size()+1));
-		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		initializeIdentityIncrementor();
+	}
+	
+	private void initializeIdentityIncrementor(){
 
+		try {
+			List<UserVO> users = retrieveUsers();
+			List<GroupVO> groups = retrieveGroups();
+			List<RoleVO> roles = retrieveRoles();
+			Collections.sort(users);
+			Collections.sort(groups);
+			Collections.sort(roles);
+			Long maxUserID = users.size()==0 ? 0 : users.get(users.size()-1).getId();
+			Long maxGroupID = groups.size()==0 ? 0 : groups.get(groups.size()-1).getId();
+			Long maxRoleID = roles.size()==0 ? 0 : roles.get(roles.size()-1).getId();
+			IdentityIncrementor.getIdetities().put(UserVO.class, maxUserID);
+			IdentityIncrementor.getIdetities().put(GroupVO.class, maxGroupID);
+			IdentityIncrementor.getIdetities().put(RoleVO.class, maxRoleID);
+		} catch (DBException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -250,7 +259,7 @@ public class AccessManager implements IAccessManager {
 	 * @see com.example.bl.dataaccess.IAccessManager#retriveGroups()
 	 */
 	@Override
-	public List<GroupVO> retriveGroups() throws DBException {
+	public List<GroupVO> retrieveGroups() throws DBException {
 		Connection connection = retrieveConnection();
 		try {
 			List<GroupVO> result = groupDAO.retrieve(connection);

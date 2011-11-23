@@ -1,2 +1,5 @@
-<a href="/WebExample/addUser.html">Add User</a>
-<a href="/WebExample/index.html">Get All Users</a>
+<center>
+	<a href="/WebExample/index.html">Get All Data</a>
+	<a href="/WebExample/addUser.html">Add User</a> 
+	<a href="/WebExample/addGroup.html">Add Group</a>
+</center>
