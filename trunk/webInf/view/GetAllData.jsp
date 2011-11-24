@@ -15,13 +15,13 @@
     <h3>Users</h3>
 	<table border="1" >
 		<tr>
-			<th>ID</th><th>Name</th><th>Login</th><th>Password</th><th>Group ID</th><th>Edit</th><th>Remove</th>
+			<th>ID</th><th>Name</th><th>Login</th><th>Password</th><th>Group Name</th><th>Edit</th><th>Remove</th>
 		</tr>
 		<c:forEach var="user" items="${users}">
 		<tr>
 			<td>${user.id }</td><td>${user.name}</td>
 			<td>${user.login}</td><td>${user.password}</td>
-			<td>${user.groupID}</td><td><input type="button" onclick="location.href='addUser.html?id=${user.id}'" value="Edit"/></td>
+			<td>${user.group.name}</td><td><input type="button" onclick="location.href='addUser.html?id=${user.id}'" value="Edit"/></td>
 			<td><input type="button" onclick="location.href='deleteEntity.html?id=${user.id}&type=user'" value="Remove"/></td>
 		</tr>
 		</c:forEach>

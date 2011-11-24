@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <LINK REL=StyleSheet HREF="style.css" TYPE="text/css">
-<title>Insert title here</title>
+<title>You can add a group here</title>
 </head>
 <body>
 	<div class="inner">
