@@ -355,8 +355,8 @@ public class AccessManager implements IAccessManager {
 			// write group's roles
 			List<RoleVO> newRoles = group.getRoles();
 			if (newRoles != null) {
-				// get group's existing roles
 				List<Long> existingRoles = groupDAO.getDependentsIDs(group, connection);
+				// get group's existing roles
 				for (RoleVO role : newRoles) {
 					// if current role is already mapped to group
 					if (existingRoles.contains(role.getId())) {
@@ -369,6 +369,19 @@ public class AccessManager implements IAccessManager {
 					}
 					// map role to group
 					groupDAO.addDependent(group, role.getId(), connection);
+				}
+				//delete existing roles that was removed
+				for(Long roleID : existingRoles){
+					boolean shouldBeDelete = true;
+					for(RoleVO role : newRoles){
+						if(roleID.equals(role.getId())){
+							shouldBeDelete=false;
+							break;
+						}
+					}
+					if(shouldBeDelete){
+						groupDAO.removeDependent(group, roleID, connection);
+					}
 				}
 			}
 			connection.commit();
