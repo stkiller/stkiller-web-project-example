@@ -15,7 +15,7 @@ import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.RoleVO;
 import com.example.dal.valueobject.UserVO;
 
-@WebServlet(urlPatterns={"/index.html"})
+@WebServlet(urlPatterns={"/index.html"}, loadOnStartup=1)
 public class GetAllDataServlet extends HttpServlet {
 	private static final long serialVersionUID = -3469018018739864179L;
 	private static final String GET_USERS_JSP = "/WEB-INF/view/GetAllData.jsp";
@@ -33,7 +33,7 @@ public class GetAllDataServlet extends HttpServlet {
 	}
 
 	private void parseRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-		List<UserVO> users = accessManager.retrieveUsers();
+		List<UserVO> users = accessManager.retrieveUsersWithGroups();
 		req.setAttribute("users", users);
 		List<GroupVO> groups = accessManager.retrieveGroups();
 		req.setAttribute("groups", groups);
