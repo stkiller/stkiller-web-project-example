@@ -53,8 +53,8 @@ public class AccessManager implements IAccessManager {
 		roleDAO = abFactory.getRoleDAO();
 		initializeIdentityIncrementor();
 	}
-	
-	private void initializeIdentityIncrementor(){
+
+	private void initializeIdentityIncrementor() {
 
 		try {
 			List<UserVO> users = retrieveUsers();
@@ -63,9 +63,9 @@ public class AccessManager implements IAccessManager {
 			Collections.sort(users);
 			Collections.sort(groups);
 			Collections.sort(roles);
-			Long maxUserID = users.size()==0 ? 0 : users.get(users.size()-1).getId();
-			Long maxGroupID = groups.size()==0 ? 0 : groups.get(groups.size()-1).getId();
-			Long maxRoleID = roles.size()==0 ? 0 : roles.get(roles.size()-1).getId();
+			Long maxUserID = users.size() == 0 ? 0 : users.get(users.size() - 1).getId();
+			Long maxGroupID = groups.size() == 0 ? 0 : groups.get(groups.size() - 1).getId();
+			Long maxRoleID = roles.size() == 0 ? 0 : roles.get(roles.size() - 1).getId();
 			IdentityIncrementor.getIdetities().put(UserVO.class, maxUserID);
 			IdentityIncrementor.getIdetities().put(GroupVO.class, maxGroupID);
 			IdentityIncrementor.getIdetities().put(RoleVO.class, maxRoleID);
@@ -218,7 +218,12 @@ public class AccessManager implements IAccessManager {
 			if (userVO.getGroup() != null) {
 				this.writeGroup(userVO.getGroup(), connection);
 			}
-			long result = userDAO.insert(userVO, connection);
+			long result;
+			if (userVO.getId() != null) {
+				result = userDAO.update(userVO, connection) ? 1 : 0;
+			} else {
+				result = userDAO.insert(userVO, connection);
+			}
 			connection.commit();
 			return result;
 		} catch (SQLException ex) {

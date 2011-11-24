@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.example.bl.dataaccess.IBLAccessManager;
-import com.example.dal.dataaccess.IAccessManager;
 import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.UserVO;
 import com.example.web.helper.BeanUtilsHelper;
@@ -22,7 +21,7 @@ public class AddUserServlet extends HttpServlet {
 	private static final long serialVersionUID = -390150401389923507L;
 	private static final String ADD_USER_JSP = "/WEB-INF/view/AddUser.jsp";
 
-	private IAccessManager accessManager;
+	private IBLAccessManager accessManager;
 	private BeanUtilsHelper beanUtilsHelper;
 
 	@Override
@@ -36,7 +35,13 @@ public class AddUserServlet extends HttpServlet {
 	}
 
 	private void parseRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (req.getParameterMap().size() <= 0) {
+		if (req.getParameterMap().size() <= 1) {
+			String userId = req.getParameter("id");
+			UserVO user = null;
+			if (userId != null) {
+				user = accessManager.retrieveUser(new Long(userId));
+				req.setAttribute("user", user);
+			}
 			List<GroupVO> groups;
 			groups = accessManager.retrieveGroups();
 			req.setAttribute("groups", groups);
