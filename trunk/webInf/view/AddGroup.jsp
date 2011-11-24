@@ -13,9 +13,10 @@
 		<c:import url="/WEB-INF/view/Header.jsp"></c:import>
 		<center>
 			<form action="addGroup.html" method="post">
-				Group name : <input type="text" name="name" /><br /> Group
-				description : <input type="text" name="description" /><br /> Group
-				roles :
+				<input type="hidden" value="${group.id }" name="id"/>
+				Group name : <input type="text" name="name" value="${group.name }"/><br /> 
+				Group description : <input type="text" name="description" value="${group.description }"/><br /> 
+				Group roles :
 				<c:forEach var="role" items="${roles}">
 					<input type="checkbox" name="roles_id" value="${role.id}" />${role.name}<br />
 				</c:forEach>

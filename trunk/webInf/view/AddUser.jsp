@@ -13,12 +13,21 @@
 		<c:import url="/WEB-INF/view/Header.jsp"></c:import>
 		<center>
 			<form action="addUser.html" method="post">
-				User name : <input type="text" name="name" /><br /> User login : <input
-					type="text" name="login" /><br /> User pass : <input
-					type="password" name="password" /><br /> User group : <select
+				<input type="hidden" name="id" value="${user.id}" /> User name : <input
+					type="text" name="name" value="${user.name}" /><br /> User login :
+				<input type="text" name="login" value="${user.login }" /><br />
+				User pass : <input type="password" name="password"
+					value="${user.password }" /><br /> User group : <select
 					name="group_id">
 					<c:forEach var="group" items="${groups}">
-						<option value="${group.id }">${group.name }</option>
+						<c:choose>
+							<c:when test="${user.groupID==group.id}">
+								<option value="${group.id }" selected="selected">${group.name}</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${group.id }"">${group.name }</option>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 				</select> <input type="submit" value="Submit">
 			</form>
