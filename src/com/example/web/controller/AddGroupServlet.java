@@ -16,7 +16,7 @@ import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.RoleVO;
 import com.example.web.helper.BeanUtilsHelper;
 
-@WebServlet(urlPatterns={"/addGroup.html"})
+@WebServlet(urlPatterns = { "/addGroup.html" })
 public class AddGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = -668656867873917796L;
 	private static final String ADD_GROUP_JSP = "/WEB-INF/view/AddGroup.jsp";
@@ -36,7 +36,7 @@ public class AddGroupServlet extends HttpServlet {
 
 	private void parseRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		if (req.getParameterMap().size() <= 1) {
-			if(req.getParameterMap().containsKey("id")){
+			if (req.getParameterMap().containsKey("id")) {
 				String id = req.getParameter("id");
 				GroupVO group = accessManager.retrieveGroup(new Long(id));
 				req.setAttribute("group", group);
@@ -51,11 +51,13 @@ public class AddGroupServlet extends HttpServlet {
 				GroupVO group = new GroupVO();
 				beanUtilsHelper.populateBean(group, req.getParameterMap());
 				List<RoleVO> roles = new ArrayList<RoleVO>();
-				for (String roleID : req.getParameterValues("roles_id")) {
-					if(roleID==null){
-						continue;
+				if (req.getParameterMap().containsKey("roles_id")) {
+					for (String roleID : req.getParameterValues("roles_id")) {
+						if (roleID == null) {
+							continue;
+						}
+						roles.add(accessManager.retrieveRole(Long.parseLong(roleID)));
 					}
-					roles.add(accessManager.retrieveRole(Long.parseLong(roleID)));
 				}
 				group.setRoles(roles);
 				accessManager.writeGroup(group);
