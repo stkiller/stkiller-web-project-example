@@ -53,6 +53,8 @@
 		<c:forEach var="role" items="${roles}">
 		<tr>
 			<td>${role.id }</td><td>${role.name}</td><td>${role.description}</td>
+			<td><input type="button" onclick="location.href='index.html?action=add_role&id=${role.id}'" value="Edit"/></td>
+			<td><input type="button" onclick="location.href='index.html?action=delete_entity&id=${role.id}&type=role'" value="Remove"/></td>
 		</tr>
 		</c:forEach>
 	</table>

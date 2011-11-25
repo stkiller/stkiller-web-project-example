@@ -13,6 +13,8 @@ import com.example.bl.dataaccess.BLAccessManager;
 import com.example.bl.dataaccess.IBLAccessManager;
 import com.example.dal.factories.DAOFactoryType;
 import com.example.web.handlers.AddGroupRequestHandler;
+import com.example.web.handlers.AddRoleRequestHandler;
+import com.example.web.handlers.AddUserRequestHandler;
 import com.example.web.handlers.DeleteEntityRequestHandler;
 import com.example.web.handlers.IRequestHandler;
 import com.example.web.handlers.ViewAllRequestHandler;
@@ -45,11 +47,9 @@ public class InitializationListener implements ServletContextListener {
 		availableHandlers.put(AvailableActionType.VIEW, new ViewAllRequestHandler(accessManager));
 		availableHandlers.put(AvailableActionType.ADD_GROUP, new AddGroupRequestHandler(accessManager, beanHelper));
 		availableHandlers.put(AvailableActionType.DELETE_ENTITY, new DeleteEntityRequestHandler(accessManager));
+		availableHandlers.put(AvailableActionType.ADD_USER, new AddUserRequestHandler(accessManager, beanHelper));
+		availableHandlers.put(AvailableActionType.ADD_ROLE, new AddRoleRequestHandler(accessManager, beanHelper));
 		contextEvent.getServletContext().setAttribute("handlers", availableHandlers);
-		// contextEvent.getServletContext().setAttribute("accessManager",
-		// accessManager);
-		// contextEvent.getServletContext().setAttribute("beanUtils", new
-		// BeanUtilsHelper());
 
 	}
 

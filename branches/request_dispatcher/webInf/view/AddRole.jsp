@@ -6,22 +6,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <LINK REL=StyleSheet HREF="style.css" TYPE="text/css">
-<title>You can add a group here</title>
+<title>You can or edit role here</title>
 </head>
 <body>
 	<div class="inner">
 		<c:import url="/WEB-INF/view/Header.jsp"></c:import>
 		<center>
-			<form action="index.html?action=add_group" method="post">
-				<input type="hidden" value="${group.id}" name="id"/>
-				Group name : <input type="text" name="name" value="${group.name }"/><br /> 
-				Group description : <input type="text" name="description" value="${group.description }"/><br /> 
-				<div>
-				Group roles : 
-				<c:forEach var="role" items="${roles}">
-					<input type="checkbox" name="roles_id" value="${role.id}" />${role.name}
-				</c:forEach>
-				</div>
+			<form action="index.html?action=add_role" method="post">
+				<input type="hidden" value="${role.id}" name="id"/>
+				Role name : <input type="text" name="name" value="${role.name }"/><br /> 
+				Role description : <input type="text" name="description" value="${role.description }"/><br /> 
 				<input type="submit" value="Submit">
 			</form>
 		</center>
