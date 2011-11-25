@@ -1,13 +1,24 @@
 package com.example.web.listeners;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import org.apache.log4j.PropertyConfigurator;
+
 import com.example.bl.dataaccess.BLAccessManager;
 import com.example.bl.dataaccess.IBLAccessManager;
 import com.example.dal.factories.DAOFactoryType;
+import com.example.web.handlers.AddGroupRequestHandler;
+import com.example.web.handlers.DeleteEntityRequestHandler;
+import com.example.web.handlers.IRequestHandler;
+import com.example.web.handlers.ViewAllRequestHandler;
+import com.example.web.helper.AvailableActionType;
 import com.example.web.helper.BeanUtilsHelper;
+
 
 @WebListener
 public class InitializationListener implements ServletContextListener {
@@ -23,13 +34,23 @@ public class InitializationListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent contextEvent) {
+		PropertyConfigurator.configure("log4j.properties");
 		String dbUser = contextEvent.getServletContext().getInitParameter(DB_USER);
 		String dbPass = contextEvent.getServletContext().getInitParameter(DB_PASS);
 		String dbURL = contextEvent.getServletContext().getInitParameter(DB_URL);
 		String dbType = contextEvent.getServletContext().getInitParameter(DB_TYPE);
 		IBLAccessManager accessManager = new BLAccessManager(DAOFactoryType.valueOf(dbType), dbUser, dbPass, dbURL);
-		contextEvent.getServletContext().setAttribute("accessManager", accessManager);
-		contextEvent.getServletContext().setAttribute("beanUtils", new BeanUtilsHelper());
+		BeanUtilsHelper beanHelper = new BeanUtilsHelper();
+		Map<AvailableActionType, IRequestHandler> availableHandlers = new HashMap<AvailableActionType, IRequestHandler>();
+		availableHandlers.put(AvailableActionType.VIEW, new ViewAllRequestHandler(accessManager));
+		availableHandlers.put(AvailableActionType.ADD_GROUP, new AddGroupRequestHandler(accessManager, beanHelper));
+		availableHandlers.put(AvailableActionType.DELETE_ENTITY, new DeleteEntityRequestHandler(accessManager));
+		contextEvent.getServletContext().setAttribute("handlers", availableHandlers);
+		// contextEvent.getServletContext().setAttribute("accessManager",
+		// accessManager);
+		// contextEvent.getServletContext().setAttribute("beanUtils", new
+		// BeanUtilsHelper());
+
 	}
 
 }

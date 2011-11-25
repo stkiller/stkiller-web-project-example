@@ -3,7 +3,6 @@ package com.example.web.controller;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +12,7 @@ import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.RoleVO;
 import com.example.dal.valueobject.UserVO;
 
-@WebServlet(urlPatterns={"/deleteEntity.html"})
+//@WebServlet(urlPatterns={"/deleteEntity.html"})
 public class DeleteEntity extends HttpServlet {
 	private static final long serialVersionUID = -8120180638048816501L;
 	private IBLAccessManager accessManager;

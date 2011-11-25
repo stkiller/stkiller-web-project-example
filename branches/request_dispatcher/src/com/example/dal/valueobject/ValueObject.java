@@ -1,6 +1,6 @@
 package com.example.dal.valueobject;
 
-public abstract class ValueObject implements Comparable<ValueObject>{
+public abstract class ValueObject implements Comparable<ValueObject> {
 
 	protected Long id;
 	protected String name;
@@ -9,10 +9,10 @@ public abstract class ValueObject implements Comparable<ValueObject>{
 		super();
 	}
 
-	public ValueObject(String name){
-		this.name=name;
+	public ValueObject(String name) {
+		this.name = name;
 	}
-	
+
 	public ValueObject(Long id, String name) {
 		this.id = id;
 		this.name = name;
@@ -30,7 +30,11 @@ public abstract class ValueObject implements Comparable<ValueObject>{
 	 *            the id to set
 	 */
 	public void setId(Long id) {
-		this.id = id;
+		if (id != null && id <= 0) {
+			this.id = null;
+		} else {
+			this.id = id;
+		}
 	}
 
 	/**
@@ -99,11 +103,10 @@ public abstract class ValueObject implements Comparable<ValueObject>{
 
 	@Override
 	public int compareTo(ValueObject o) {
-		if(o==null || o.getId()==null){
+		if (o == null || o.getId() == null) {
 			return -1;
 		}
 		return this.getId().compareTo(o.getId());
 	}
 
-	
 }

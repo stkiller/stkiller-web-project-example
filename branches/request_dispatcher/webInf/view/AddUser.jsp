@@ -12,7 +12,7 @@
 	<div class="inner">
 		<c:import url="/WEB-INF/view/Header.jsp"></c:import>
 		<center>
-			<form action="addUser.html" method="post">
+			<form action="index.html?action=add_user" method="post">
 				<input type="hidden" name="id" value="${user.id}" /> User name : <input
 					type="text" name="name" value="${user.name}" /><br /> User login :
 				<input type="text" name="login" value="${user.login }" /><br />

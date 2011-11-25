@@ -21,8 +21,8 @@
 		<tr>
 			<td>${user.id }</td><td>${user.name}</td>
 			<td>${user.login}</td><td>${user.password}</td>
-			<td>${user.group.name}</td><td><input type="button" onclick="location.href='addUser.html?id=${user.id}'" value="Edit"/></td>
-			<td><input type="button" onclick="location.href='deleteEntity.html?id=${user.id}&type=user'" value="Remove"/></td>
+			<td>${user.group.name}</td><td><input type="button" onclick="location.href='index.html?action=add_user&id=${user.id}'" value="Edit"/></td>
+			<td><input type="button" onclick="location.href='index.html?action=delete_entity&id=${user.id}&type=user'" value="Remove"/></td>
 		</tr>
 		</c:forEach>
 	</table>
@@ -37,8 +37,8 @@
 		<c:forEach var="group" items="${groups}">
 		<tr>
 			<td>${group.id }</td><td>${group.name}</td><td>${group.description}</td>
-			<td><input type="button" onclick="location.href='addGroup.html?id=${group.id}'" value="Edit"/></td>
-			<td><input type="button" onclick="location.href='deleteEntity.html?id=${group.id}&type=group'" value="Remove"/></td>
+			<td><input type="button" onclick="location.href='index.html?action=add_group&id=${group.id}'" value="Edit"/></td>
+			<td><input type="button" onclick="location.href='index.html?action=delete_entity&id=${group.id}&type=group'" value="Remove"/></td>
 		</tr>
 		</c:forEach>
 	</table>
