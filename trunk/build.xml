@@ -49,7 +49,7 @@
 
 	<target name="compile" depends="init" description="compile the source ">
 		<!-- Compile the java code from ${src} into ${build} -->
-		<javac srcdir="${src}" destdir="${build}">
+		<javac srcdir="${src}" destdir="${build}" debug="true">
 			<classpath refid="compile.classpath" />
 		</javac>
 	</target>
@@ -70,6 +70,7 @@
 		<copy todir="${dist}">
 			<fileset dir="${web.dir}" />
 		</copy>
+		<copy file="log4j.properties" todir="${dist.webinf.classes}"/>
 	</target>
 	
 	<target name="war" depends="dist">

@@ -87,7 +87,7 @@ public class AccessManager implements IAccessManager {
 			connection.setAutoCommit(false);
 			return connection;
 		} catch (SQLException ex) {
-			throw new DBException(String.format("There is an error retrieving connection: %1$s", ex.getMessage()));
+			throw new DBException(String.format("There is an error retrieving connection: %1$s", ex.getMessage()),ex);
 		}
 	}
 
@@ -114,7 +114,7 @@ public class AccessManager implements IAccessManager {
 		try {
 			connection.rollback();
 		} catch (SQLException ex) {
-			throw new DBException(String.format("SQL commands cannot be rollbacked: %1$s", ex.getMessage()));
+			throw new DBException(String.format("SQL commands cannot be rollbacked: %1$s", ex.getMessage()),ex);
 		}
 	}
 
@@ -132,7 +132,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()));
+			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()),ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -155,7 +155,7 @@ public class AccessManager implements IAccessManager {
 			return users;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()));
+			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()),ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -175,7 +175,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()));
+			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()),ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -196,7 +196,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()));
+			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()),ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -228,7 +228,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("User's writing wasn't successful: %1$s", ex.getMessage()));
+			throw new DBException(String.format("User's writing wasn't successful: %1$s", ex.getMessage()),ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -252,7 +252,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("There is an error on removing user : %1$s", ex.getMessage()));
+			throw new DBException(String.format("There is an error on removing user : %1$s", ex.getMessage()),ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -281,7 +281,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("Groups' retrieving wasn't successful: %1$s", ex.getMessage()));
+			throw new DBException(String.format("Groups' retrieving wasn't successful: %1$s", ex.getMessage()),ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -308,7 +308,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("Group's retrieving wasn't successful: %1$s", ex.getMessage()));
+			throw new DBException(String.format("Group's retrieving wasn't successful: %1$s", ex.getMessage()),ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -388,7 +388,7 @@ public class AccessManager implements IAccessManager {
 			return group.getId();
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("Group's retrieving wasn't successful: %1$s", ex.getMessage()));
+			throw new DBException(String.format("Group's writing wasn't successful: %1$s", ex.getMessage()),ex);
 		}
 	}
 
@@ -419,7 +419,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("Group's removing wasn't successful: %1$s", ex.getMessage()));
+			throw new DBException(String.format("Group's removing wasn't successful: %1$s", ex.getMessage()),ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -448,7 +448,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("Roles' retrieving wasn't successful: %1$s", ex.getMessage()));
+			throw new DBException(String.format("Roles' retrieving wasn't successful: %1$s", ex.getMessage()),ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -478,7 +478,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("Role's retrieving wasn't successful: %1$s", ex.getMessage()));
+			throw new DBException(String.format("Role's retrieving wasn't successful: %1$s", ex.getMessage()),ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -544,7 +544,7 @@ public class AccessManager implements IAccessManager {
 			return role.getId();
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("Role's writing wasn't successful: %1$s", ex.getMessage()));
+			throw new DBException(String.format("Role's writing wasn't successful: %1$s", ex.getMessage()),ex);
 		} finally {
 			returnConnection(connection);
 		}

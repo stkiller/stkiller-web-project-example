@@ -53,7 +53,7 @@ public class GroupVO extends ValueObject {
 	 */
 	@Override
 	public String toString() {
-		return String.format("GroupVO [description=%s", description);
+		return String.format("GroupVO [description=%s]", description)+super.toString();
 	}
 
 }
