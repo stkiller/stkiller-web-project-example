@@ -89,16 +89,6 @@ public class UserVO extends ValueObject {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return String.format("UserVO [login=%s, password=%s, groupID=%s, group=%s]", login,	password, groupID, group)+super.toString();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -154,6 +144,11 @@ public class UserVO extends ValueObject {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "UserVO [login=" + login + ", password=" + password + ", groupID=" + groupID + ", id=" + id + ", name=" + name + "]";
 	}
 
 }

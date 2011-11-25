@@ -53,7 +53,7 @@ public class MSSqlDAOFactory extends AbstractDAOFactory {
 	}
 
 	@Override
-	public IManyToManyDAO<RoleVO> getRoleDAO() {
+	public IBaseDao<RoleVO> getRoleDAO() {
 		return new MSSqlRoleDAO();
 	}
 

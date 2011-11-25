@@ -29,8 +29,8 @@ public class AccessManager implements IAccessManager {
 
 	AbstractDAOFactory abFactory;
 	IBaseDao<UserVO> userDAO;
+	IBaseDao<RoleVO> roleDAO;
 	IManyToManyDAO<GroupVO> groupDAO;
-	IManyToManyDAO<RoleVO> roleDAO;
 
 	/**
 	 * 
@@ -45,8 +45,7 @@ public class AccessManager implements IAccessManager {
 	 * @throws NoSuchFactoryException
 	 *             if there is provided invalid {@link DAOFactoryType}
 	 */
-	public AccessManager(DAOFactoryType dbType, String dbUser, String dbPassword, String dbURL)
-			throws NoSuchFactoryException {
+	public AccessManager(DAOFactoryType dbType, String dbUser, String dbPassword, String dbURL) throws NoSuchFactoryException {
 		abFactory = AbstractDAOFactory.getFactory(dbType, dbUser, dbPassword, dbURL);
 		userDAO = abFactory.getUserDAO();
 		groupDAO = abFactory.getGroupDAO();
@@ -87,7 +86,7 @@ public class AccessManager implements IAccessManager {
 			connection.setAutoCommit(false);
 			return connection;
 		} catch (SQLException ex) {
-			throw new DBException(String.format("There is an error retrieving connection: %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("There is an error retrieving connection: %1$s", ex.getMessage()), ex);
 		}
 	}
 
@@ -114,7 +113,7 @@ public class AccessManager implements IAccessManager {
 		try {
 			connection.rollback();
 		} catch (SQLException ex) {
-			throw new DBException(String.format("SQL commands cannot be rollbacked: %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("SQL commands cannot be rollbacked: %1$s", ex.getMessage()), ex);
 		}
 	}
 
@@ -132,7 +131,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()), ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -155,7 +154,7 @@ public class AccessManager implements IAccessManager {
 			return users;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()), ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -175,7 +174,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()), ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -196,7 +195,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("User's retrieving wasn't successful: %1$s", ex.getMessage()), ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -228,7 +227,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("User's writing wasn't successful: %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("User's writing wasn't successful: %1$s", ex.getMessage()), ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -252,7 +251,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("There is an error on removing user : %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("There is an error on removing user : %1$s", ex.getMessage()), ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -281,7 +280,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("Groups' retrieving wasn't successful: %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("Groups' retrieving wasn't successful: %1$s", ex.getMessage()), ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -308,7 +307,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("Group's retrieving wasn't successful: %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("Group's retrieving wasn't successful: %1$s", ex.getMessage()), ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -370,16 +369,16 @@ public class AccessManager implements IAccessManager {
 					// map role to group
 					groupDAO.addDependent(group, role.getId(), connection);
 				}
-				//delete existing roles that was removed
-				for(Long roleID : existingRoles){
+				// delete existing roles that was removed
+				for (Long roleID : existingRoles) {
 					boolean shouldBeDelete = true;
-					for(RoleVO role : newRoles){
-						if(roleID.equals(role.getId())){
-							shouldBeDelete=false;
+					for (RoleVO role : newRoles) {
+						if (roleID.equals(role.getId())) {
+							shouldBeDelete = false;
 							break;
 						}
 					}
-					if(shouldBeDelete){
+					if (shouldBeDelete) {
 						groupDAO.removeDependent(group, roleID, connection);
 					}
 				}
@@ -388,7 +387,7 @@ public class AccessManager implements IAccessManager {
 			return group.getId();
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("Group's writing wasn't successful: %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("Group's writing wasn't successful: %1$s", ex.getMessage()), ex);
 		}
 	}
 
@@ -419,7 +418,7 @@ public class AccessManager implements IAccessManager {
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("Group's removing wasn't successful: %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("Group's removing wasn't successful: %1$s", ex.getMessage()), ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -435,20 +434,11 @@ public class AccessManager implements IAccessManager {
 		Connection connection = retrieveConnection();
 		try {
 			List<RoleVO> result = roleDAO.retrieve(connection);
-			for (RoleVO role : result) {
-				List<GroupVO> groups = new LinkedList<GroupVO>();
-				List<Long> groupsIDs = roleDAO.getDependentsIDs(role, connection);
-				for (Long groupID : groupsIDs) {
-					GroupVO group = groupDAO.retrieve(groupID, connection);
-					groups.add(group);
-				}
-				role.setGroups(groups);
-			}
 			connection.commit();
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("Roles' retrieving wasn't successful: %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("Roles' retrieving wasn't successful: %1$s", ex.getMessage()), ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -467,18 +457,11 @@ public class AccessManager implements IAccessManager {
 			if (result == null) {
 				return result;
 			}
-			List<GroupVO> groups = new LinkedList<GroupVO>();
-			List<Long> groupsIDs = roleDAO.getDependentsIDs(result, connection);
-			for (Long groupID : groupsIDs) {
-				GroupVO group = groupDAO.retrieve(groupID, connection);
-				groups.add(group);
-			}
-			result.setGroups(groups);
 			connection.commit();
 			return result;
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("Role's retrieving wasn't successful: %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("Role's retrieving wasn't successful: %1$s", ex.getMessage()), ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -506,45 +489,12 @@ public class AccessManager implements IAccessManager {
 				// update it
 				roleDAO.update(role, connection);
 			}
-			// write groups
-			List<GroupVO> newGroups = role.getGroups();
-			if ((newGroups != null) && (0 < newGroups.size())) {
-				List<Long> oldGroups = roleDAO.getDependentsIDs(role, connection);
-				for (GroupVO group : newGroups) {
-					if (oldGroups.contains(group.getId())) {
-						continue;
-					}
-					// check if that group already exists in DB
-					if (group.getId() == null) {
-						// if not - insert it
-						groupDAO.insert(group, connection);
-					} else {
-						// if yes - update it
-						groupDAO.update(group, connection);
-					}
-					// map group to role
-					roleDAO.addDependent(role, group.getId(), connection);
-				}
-				// unmap unused connections
-				for (Long oldGroupID : oldGroups) {
-					boolean found = false;
-					for (GroupVO newGroup : newGroups) {
-						if (oldGroupID == newGroup.getId()) {
-							found = true;
-							break;
-						}
-						if (!found) {
-							roleDAO.removeDependent(role, oldGroupID, connection);
-						}
-					}
-				}
-			}
 			// commit connection
 			connection.commit();
 			return role.getId();
 		} catch (SQLException ex) {
 			rollbackConnection(connection);
-			throw new DBException(String.format("Role's writing wasn't successful: %1$s", ex.getMessage()),ex);
+			throw new DBException(String.format("Role's writing wasn't successful: %1$s", ex.getMessage()), ex);
 		} finally {
 			returnConnection(connection);
 		}
@@ -563,13 +513,6 @@ public class AccessManager implements IAccessManager {
 		}
 		Connection connection = retrieveConnection();
 		try {
-			// remove role's groups
-			List<Long> groups = roleDAO.getDependentsIDs(role, connection);
-			if (groups != null && 0 < groups.size()) {
-				for (Long group : groups) {
-					roleDAO.removeDependent(role, group, connection);
-				}
-			}
 			// remove role
 			boolean result = roleDAO.delete(role, connection);
 			connection.commit();

@@ -46,14 +46,8 @@ public class GroupVO extends ValueObject {
 		this.description = description;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return String.format("GroupVO [description=%s]", description)+super.toString();
+		return "GroupVO [description=" + description + ", roles=" + roles + ", id=" + id + ", name=" + name + "]";
 	}
-
 }

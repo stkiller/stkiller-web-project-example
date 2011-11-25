@@ -4,6 +4,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -28,8 +29,6 @@ public class AccessManagerTest {
 		refRole = new RoleVO("FirstRole", "FirstRole description");
 
 		refGroup = new GroupVO("FirstGroup", "FirstGroup description");
-
-		refRole.getGroups().add(refGroup);
 
 		refGroup.getRoles().add(refRole);
 
@@ -181,7 +180,7 @@ public class AccessManagerTest {
 		}
 	}
 
-	//@AfterClass
+	@AfterClass
 	public static void after() {
 		try {
 			boolean result = accessManager.removeUser(refUser);

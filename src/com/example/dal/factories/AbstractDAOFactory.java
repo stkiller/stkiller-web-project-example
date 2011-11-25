@@ -43,7 +43,7 @@ public abstract class AbstractDAOFactory {
 	 * 
 	 * @return IManyToManyDAO<RoleVO> DAO that works with specific DB
 	 */
-	public abstract IManyToManyDAO<RoleVO> getRoleDAO();
+	public abstract IBaseDao<RoleVO> getRoleDAO();
 
 	/**
 	 * 
