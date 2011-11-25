@@ -126,7 +126,7 @@ public class UserVO extends ValueObject {
 		} else if (!group.equals(other.group)) {
 			return false;
 		}
-		if (groupID != other.groupID) {
+		if (!groupID.equals(other.groupID)) {
 			return false;
 		}
 		if (login == null) {

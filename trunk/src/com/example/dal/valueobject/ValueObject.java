@@ -88,7 +88,7 @@ public abstract class ValueObject implements Comparable<ValueObject> {
 			return false;
 		}
 		ValueObject other = (ValueObject) obj;
-		if (id != other.id) {
+		if (!id.equals(other.id)) {
 			return false;
 		}
 		if (name == null) {
