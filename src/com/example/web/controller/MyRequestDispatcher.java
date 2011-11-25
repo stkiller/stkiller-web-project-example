@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
 import com.example.web.handlers.IRequestHandler;
 import com.example.web.helper.AvailableActionType;
 import com.example.web.resolution.IResolution;
@@ -31,7 +29,6 @@ public class MyRequestDispatcher extends HttpServlet {
 	}
 
 	private void parseRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		logInputRequest(req.getParameterMap());
 		if (req.getParameterMap().containsKey("action")) {
 			String actionName = req.getParameter("action");
 			AvailableActionType action = AvailableActionType.valueOf(actionName.toUpperCase());
@@ -61,18 +58,6 @@ public class MyRequestDispatcher extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		handlers = (Map<AvailableActionType, IRequestHandler>) getServletContext().getAttribute("handlers");
-	}
-	
-	private void logInputRequest(Map<String, String[]> map){
-		String parameters = "";
-		for(String key : map.keySet()){
-			parameters+=key+":[";
-			for(String value : map.get(key)){
-				parameters += value;
-			}
-			parameters+="]||";
-		}
-		Logger.getLogger(getClass()).info(parameters);
 	}
 
 }
