@@ -53,7 +53,7 @@ public class PostgreDAOFactory extends AbstractDAOFactory {
 	}
 
 	@Override
-	public IManyToManyDAO<RoleVO> getRoleDAO() {
+	public IBaseDao<RoleVO> getRoleDAO() {
 		return new PostgreRoleDAO();
 	}
 
