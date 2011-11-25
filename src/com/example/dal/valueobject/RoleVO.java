@@ -54,7 +54,7 @@ public class RoleVO extends ValueObject {
 	 */
 	@Override
 	public String toString() {
-		return String.format("RoleVO [description=%s", description);
+		return String.format("RoleVO [description=%s]", description)+super.toString();
 	}
 
 }

@@ -15,7 +15,7 @@ import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.UserVO;
 import com.example.web.helper.BeanUtilsHelper;
 
-@WebServlet(urlPatterns = { "/addUser.html" })
+//@WebServlet(urlPatterns = { "/addUser.html" })
 public class AddUserServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -390150401389923507L;

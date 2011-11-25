@@ -1,41 +1,36 @@
-package com.example.web.controller;
+package com.example.web.handlers;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.example.bl.dataaccess.IBLAccessManager;
 import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.RoleVO;
+import com.example.web.helper.AvailableActionType;
 import com.example.web.helper.BeanUtilsHelper;
+import com.example.web.resolution.ForwardResolution;
+import com.example.web.resolution.IResolution;
+import com.example.web.resolution.RedirectResolution;
 
-//@WebServlet(urlPatterns = { "/addGroup.html" })
-public class AddGroupServlet extends HttpServlet {
-	private static final long serialVersionUID = -668656867873917796L;
-	private static final String ADD_GROUP_JSP = "/WEB-INF/view/AddGroup.jsp";
-
+public class AddGroupRequestHandler implements IRequestHandler {
+	private static final String VIEW = "/WEB-INF/view/AddGroup.jsp";
 	private IBLAccessManager accessManager;
 	private BeanUtilsHelper beanUtilsHelper;
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		parseRequest(req, resp);
+	public AddGroupRequestHandler(IBLAccessManager accessManager, BeanUtilsHelper beanUtilsHelper) {
+		super();
+		this.accessManager = accessManager;
+		this.beanUtilsHelper = beanUtilsHelper;
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		parseRequest(req, resp);
-	}
-
-	private void parseRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (req.getParameterMap().size() <= 1) {
+	public IResolution parseRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		if (!req.getParameterMap().containsKey("name")) {
 			if (req.getParameterMap().containsKey("id")) {
 				String id = req.getParameter("id");
 				GroupVO group = accessManager.retrieveGroup(new Long(id));
@@ -44,8 +39,7 @@ public class AddGroupServlet extends HttpServlet {
 			List<RoleVO> roles;
 			roles = accessManager.retrieveRoles();
 			req.setAttribute("roles", roles);
-			RequestDispatcher reqDispatcher = req.getRequestDispatcher(ADD_GROUP_JSP);
-			reqDispatcher.forward(req, resp);
+			return new ForwardResolution(VIEW);
 		} else {
 			try {
 				GroupVO group = new GroupVO();
@@ -61,18 +55,11 @@ public class AddGroupServlet extends HttpServlet {
 				}
 				group.setRoles(roles);
 				accessManager.writeGroup(group);
-				resp.sendRedirect("index.html");
+				return new RedirectResolution("index.html?action=" + AvailableActionType.VIEW);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 		}
 	}
 
-	@Override
-	public void init() throws ServletException {
-		// TODO Auto-generated method stub
-		super.init();
-		accessManager = (IBLAccessManager) getServletContext().getAttribute("accessManager");
-		beanUtilsHelper = (BeanUtilsHelper) getServletContext().getAttribute("beanUtils");
-	}
 }

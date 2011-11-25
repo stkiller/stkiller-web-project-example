@@ -12,8 +12,8 @@
 	<div class="inner">
 		<c:import url="/WEB-INF/view/Header.jsp"></c:import>
 		<center>
-			<form action="addGroup.html" method="post">
-				<input type="hidden" value="${group.id }" name="id"/>
+			<form action="index.html?action=add_group" method="post">
+				<input type="hidden" value="${group.id}" name="id"/>
 				Group name : <input type="text" name="name" value="${group.name }"/><br /> 
 				Group description : <input type="text" name="description" value="${group.description }"/><br /> 
 				Group roles :
