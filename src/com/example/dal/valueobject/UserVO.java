@@ -93,8 +93,7 @@ public class UserVO extends ValueObject {
 	 */
 	@Override
 	public String toString() {
-		return String.format("UserVO [id=%s, name=%s, login=%s, password=%s, groupID=%s, group=%s]", id, name, login,
-				password, groupID, group);
+		return String.format("UserVO [login=%s, password=%s, groupID=%s, group=%s]", login,	password, groupID, group)+super.toString();
 	}
 
 	/*

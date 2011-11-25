@@ -7,6 +7,8 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.example.dal.dao.IManyToManyDAO;
 import com.example.dal.factories.IdentityIncrementor;
 import com.example.dal.valueobject.GroupVO;
@@ -24,6 +26,7 @@ public class MSSqlGroupDAO implements IManyToManyDAO<GroupVO> {
 
 	@Override
 	public List<Long> getDependentsIDs(GroupVO owner, Connection connection) throws SQLException {
+		Logger.getLogger(getClass()).debug("Get dependents:"+owner);
 		List<Long> result = new LinkedList<Long>();
 		Statement statement = connection.createStatement();
 		ResultSet resSet = statement.executeQuery(String.format(GET_ROLES, owner.getId()));
@@ -35,6 +38,7 @@ public class MSSqlGroupDAO implements IManyToManyDAO<GroupVO> {
 
 	@Override
 	public boolean removeDependent(GroupVO owner, Long dependentID, Connection connection) throws SQLException {
+		Logger.getLogger(getClass()).debug("Remove dependent:"+owner+"|"+dependentID);
 		Statement statement = connection.createStatement();
 		int result = statement.executeUpdate(String.format(REMOVE_ROLE, owner.getId(), dependentID));
 		return 0 < result ? true : false;
@@ -42,6 +46,7 @@ public class MSSqlGroupDAO implements IManyToManyDAO<GroupVO> {
 
 	@Override
 	public boolean addDependent(GroupVO owner, Long dependentID, Connection connection) throws SQLException {
+		Logger.getLogger(getClass()).debug("Add dependent:"+owner+"|"+dependentID);
 		Statement statement = connection.createStatement();
 		int result = statement.executeUpdate(String.format(ADD_ROLE, owner.getId(), dependentID));
 		return 0 < result ? true : false;
@@ -62,6 +67,7 @@ public class MSSqlGroupDAO implements IManyToManyDAO<GroupVO> {
 
 	@Override
 	public GroupVO retrieve(long id, Connection connection) throws SQLException {
+		Logger.getLogger(getClass()).debug("Get group:"+id);
 		GroupVO result = null;
 		Statement statement = connection.createStatement();
 		ResultSet resSet = statement.executeQuery(String.format(SELECT, id));
@@ -73,6 +79,7 @@ public class MSSqlGroupDAO implements IManyToManyDAO<GroupVO> {
 
 	@Override
 	public boolean update(GroupVO item, Connection connection) throws SQLException {
+		Logger.getLogger(getClass()).debug("Update grup:"+item);
 		Statement statement = connection.createStatement();
 		int result = statement
 				.executeUpdate(String.format(UPDATE, item.getId(), item.getName(), item.getDescription()));
@@ -81,6 +88,7 @@ public class MSSqlGroupDAO implements IManyToManyDAO<GroupVO> {
 
 	@Override
 	public boolean delete(GroupVO item, Connection connection) throws SQLException {
+		Logger.getLogger(getClass()).debug("Delete group:"+item);
 		Statement statement = connection.createStatement();
 		int result = statement.executeUpdate(String.format(DELETE, item.getId()));
 		return 0 < result ? true : false;
@@ -88,6 +96,7 @@ public class MSSqlGroupDAO implements IManyToManyDAO<GroupVO> {
 
 	@Override
 	public long insert(GroupVO item, Connection connection) throws SQLException {
+		Logger.getLogger(getClass()).debug("Insert group:"+item);
 		if(item.getId()==null){
 			IdentityIncrementor.incrementIdentity(item);
 		}
