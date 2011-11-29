@@ -3,16 +3,18 @@ package com.example.web.handlers;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.example.bl.dataaccess.IBLAccessManager;
+import com.example.bl.exceptions.DataWriteException;
+import com.example.bl.exceptions.ValidationException;
 import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.RoleVO;
 import com.example.dal.valueobject.UserVO;
+import com.example.web.entities.execution.IExecutionContext;
+import com.example.web.entities.resolution.IResolution;
+import com.example.web.entities.resolution.RedirectResolution;
 import com.example.web.helper.AvailableActionType;
-import com.example.web.resolution.IResolution;
-import com.example.web.resolution.RedirectResolution;
+import com.example.web.helper.BeanUtilsHelper;
 
 public class DeleteEntityRequestHandler implements IRequestHandler {
 
@@ -24,27 +26,33 @@ public class DeleteEntityRequestHandler implements IRequestHandler {
 	}
 
 	@Override
-	public IResolution parseRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String objectType = req.getParameter("type");
-		String id = req.getParameter("id");
-		if (objectType != null && id != null) {
-			if (objectType.equals("user")) {
-				UserVO user = new UserVO();
-				user.setId(new Long(id));
-				accessManager.removeUser(user);
+	public IResolution parseRequest(IExecutionContext context) throws ServletException, IOException {
+		String objectType = context.getParameter("type");
+		String id = context.getParameter("id");
+		try {
+			if (objectType != null && id != null) {
+				if (objectType.equals("user")) {
+					UserVO user = new UserVO();
+					user.setId(new Long(id));
+					accessManager.removeUser(user);
+				}
+				if (objectType.equals("role")) {
+					RoleVO role = new RoleVO();
+					role.setId(new Long(id));
+					accessManager.removeRole(role);
+				}
+				if (objectType.equals("group")) {
+					GroupVO group = new GroupVO();
+					group.setId(new Long(id));
+					accessManager.removeGroup(group);
+				}
 			}
-			if (objectType.equals("role")) {
-				RoleVO role = new RoleVO();
-				role.setId(new Long(id));
-				accessManager.removeRole(role);
-			}
-			if (objectType.equals("group")) {
-				GroupVO group = new GroupVO();
-				group.setId(new Long(id));
-				accessManager.removeGroup(group);
-			}
+			return new RedirectResolution("index.html?action=" + AvailableActionType.VIEW);
+		} catch (DataWriteException ex) {
+			throw new RuntimeException(ex);
+		} catch (ValidationException e) {
+			throw new RuntimeException(e);
 		}
-		return new RedirectResolution("index.html?action=" + AvailableActionType.VIEW);
 	}
 
 }

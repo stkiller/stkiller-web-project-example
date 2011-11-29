@@ -1,6 +1,6 @@
 package com.example.dal.exceptions;
 
-public class DBException extends RuntimeException {
+public class DBException extends Exception {
 
 	/**
      * 

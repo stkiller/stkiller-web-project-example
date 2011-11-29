@@ -12,6 +12,9 @@
 	<div class="inner">
 		<c:import url="/WEB-INF/view/Header.jsp"></c:import>
 		<center>
+			<c:if test="${validation != null && validation != \"\" }">
+				<div style="color: red;">${validation}</div>
+			</c:if>
 			<form action="index.html?action=add_group" method="post">
 				<input type="hidden" value="${group.id}" name="id"/>
 				Group name : <input type="text" name="name" value="${group.name }"/><br /> 

@@ -4,8 +4,17 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.example.bl.datavalidation.implementation.GroupValidator;
+import com.example.bl.datavalidation.implementation.RoleValidator;
+import com.example.bl.datavalidation.implementation.UserValidator;
+import com.example.bl.datavalidation.interfaces.IValidationResult;
+import com.example.bl.datavalidation.interfaces.IValidator;
+import com.example.bl.exceptions.DataRetrievalException;
+import com.example.bl.exceptions.DataWriteException;
+import com.example.bl.exceptions.ValidationException;
 import com.example.dal.dataaccess.AccessManager;
 import com.example.dal.dataaccess.IAccessManager;
+import com.example.dal.exceptions.DBException;
 import com.example.dal.exceptions.NoSuchFactoryException;
 import com.example.dal.factories.DAOFactoryType;
 import com.example.dal.valueobject.GroupVO;
@@ -15,6 +24,9 @@ import com.example.dal.valueobject.UserVO;
 public class BLAccessManager implements IBLAccessManager {
 
 	private IAccessManager accessManager;
+	private IValidator<UserVO> userValidator = new UserValidator();
+	private IValidator<GroupVO> groupValidator = new GroupValidator();
+	private IValidator<RoleVO> roleValidator = new RoleValidator();
 
 	public BLAccessManager(DAOFactoryType dbType, String dbUser, String dbPass, String dbURL) {
 		try {
@@ -24,159 +36,165 @@ public class BLAccessManager implements IBLAccessManager {
 		}
 	}
 
-	public List<UserVO> retrieveUsers() {
+	public List<UserVO> retrieveUsers() throws DataRetrievalException {
 		try {
 			return accessManager.retrieveUsers();
-		} catch (RuntimeException ex) {
+		} catch (DBException ex) {
 			Logger.getLogger(getClass()).error("Error on retrieveUsers : ",ex);
-			throw ex;
+			throw new DataRetrievalException(ex);
 		}
 	}
 
-	public List<UserVO> retrieveUsersWithGroups() {
+	public List<UserVO> retrieveUsersWithGroups() throws DataRetrievalException {
 		try {
 			return accessManager.retrieveUsersWithGroups();
-		} catch (RuntimeException ex) {
+		} catch (DBException ex) {
 			Logger.getLogger(getClass()).error("Error on retrieveUsersWithGroups : ",ex);
-			throw ex;
+			throw new DataRetrievalException(ex);
 		}
 	}
 
-	public UserVO retrieveUser(Long id) {
+	public UserVO retrieveUser(Long id) throws DataRetrievalException {
 		try {
 			if (id == null || id < 0) {
-				throw new RuntimeException("User's id cannot be null or negative !");
+				throw new DataRetrievalException("User's id cannot be null or negative !");
 			}
 			return accessManager.retrieveUser(id);
-		} catch (RuntimeException ex) {
+		} catch (DBException ex) {
 			Logger.getLogger(getClass()).error("Error on retrieveUser : ",ex);
-			throw ex;
+			throw new DataRetrievalException(ex);
 		}
 	}
 
-	public UserVO retrieveUserWithGroup(Long id) {
+	public UserVO retrieveUserWithGroup(Long id) throws DataRetrievalException {
 		try {
 			if (id == null || id < 0) {
-				throw new RuntimeException("User's id cannot be null or negative !");
+				throw new DataRetrievalException("User's id cannot be null or negative !");
 			}
 			return accessManager.retrieveUserWithGroup(id);
-		} catch (RuntimeException ex) {
+		} catch (DBException ex) {
 			Logger.getLogger(getClass()).error("Error on retrieveUserWithGroup : ",ex);
-			throw ex;
+			throw new DataRetrievalException(ex);
 		}
 	}
 
-	public long writeUser(UserVO userVO) {
+	public long writeUser(UserVO userVO) throws ValidationException, DataWriteException {
 		try {
-			if (userVO == null) {
-				throw new RuntimeException("User object cannot be null!");
+			IValidationResult result = userValidator.isValid(userVO);
+			if (!result.isValid()) {
+				throw new ValidationException(result);
 			}
 			return accessManager.writeUser(userVO);
-		} catch (RuntimeException ex) {
+		} catch (DBException ex) {
 			Logger.getLogger(getClass()).error("Error on writeUser : ",ex);
-			throw ex;
+			throw new DataWriteException(ex);
 		}
 	}
 
-	public boolean removeUser(UserVO user) {
+	public boolean removeUser(UserVO userVO) throws ValidationException, DataWriteException {
 		try {
-			if (user == null) {
-				throw new RuntimeException("User object cannot be null!");
+			IValidationResult result = userValidator.isIdentityValid(userVO);
+			if (!result.isValid()) {
+				throw new ValidationException(result);
 			}
-			return accessManager.removeUser(user);
-		} catch (RuntimeException ex) {
+			return accessManager.removeUser(userVO);
+		} catch (DBException ex) {
 			Logger.getLogger(getClass()).error("Error on removeUser : ",ex);
-			throw ex;
+			throw new DataWriteException(ex);
 		}
 	}
 
-	public List<GroupVO> retrieveGroups() {
+	public List<GroupVO> retrieveGroups() throws DataRetrievalException {
 		try {
 			return accessManager.retrieveGroups();
-		} catch (RuntimeException ex) {
+		} catch (DBException ex) {
 			Logger.getLogger(getClass()).error("Error on retrieveGroups : ",ex);
-			throw ex;
+			throw new DataRetrievalException(ex);
 		}
 	}
 
-	public GroupVO retrieveGroup(Long id) {
+	public GroupVO retrieveGroup(Long id) throws DataRetrievalException {
 		try {
 			if (id == null || id < 0) {
-				throw new RuntimeException("Group's id cannot be null or negative !");
+				throw new DataRetrievalException("Group's id cannot be null or negative !");
 			}
 			return accessManager.retrieveGroup(id);
-		} catch (RuntimeException ex) {
+		} catch (DBException ex) {
 			Logger.getLogger(getClass()).error("Error on retrieveGroup : ",ex);
-			throw ex;
+			throw new DataRetrievalException(ex);
 		}
 	}
 
-	public long writeGroup(GroupVO group) {
+	public long writeGroup(GroupVO groupVO) throws ValidationException, DataWriteException {
 		try {
-			if (group == null) {
-				throw new RuntimeException("Group object cannot be null!");
+			IValidationResult result = groupValidator.isValid(groupVO);
+			if (!result.isValid()) {
+				throw new ValidationException(result);
 			}
-			return accessManager.writeGroup(group);
-		} catch (RuntimeException ex) {
+			return accessManager.writeGroup(groupVO);
+		} catch (DBException ex) {
 			Logger.getLogger(getClass()).error("Error on writeGroup : ",ex);
-			throw ex;
+			throw new DataWriteException(ex);
 		}
 	}
 
-	public boolean removeGroup(GroupVO group) {
+	public boolean removeGroup(GroupVO groupVO) throws ValidationException, DataWriteException {
 		try {
-			if (group == null) {
-				throw new RuntimeException("Group object cannot be null!");
+			IValidationResult result = groupValidator.isIdentityValid(groupVO);
+			if (!result.isValid()) {
+				throw new ValidationException(result);
 			}
-			return accessManager.removeGroup(group);
-		} catch (RuntimeException ex) {
+			return accessManager.removeGroup(groupVO);
+		} catch (DBException ex) {
 			Logger.getLogger(getClass()).error("Error on removeGroup : ",ex);
-			throw ex;
+			throw new DataWriteException(ex);
 		}
 	}
 
-	public List<RoleVO> retrieveRoles() {
+	public List<RoleVO> retrieveRoles() throws DataRetrievalException {
 		try {
 			return accessManager.retrieveRoles();
-		} catch (RuntimeException ex) {
+		} catch (DBException ex) {
 			Logger.getLogger(getClass()).error("Error on retrieveRoles : ",ex);
-			throw ex;
+			throw new DataRetrievalException(ex);
 		}
 	}
 
-	public RoleVO retrieveRole(Long id) {
+	public RoleVO retrieveRole(Long id) throws DataRetrievalException {
 		try {
 			if (id == null || id < 0) {
-				throw new RuntimeException("Role's id cannot be null or negative !");
+				throw new DataRetrievalException("Role's id cannot be null or negative !");
 			}
 			return accessManager.retrieveRole(id);
-		} catch (RuntimeException ex) {
+		} catch (DBException ex) {
 			Logger.getLogger(getClass()).error("Error on retrieveRole : " ,ex);
-			throw ex;
+			throw new DataRetrievalException(ex);
 		}
 	}
 
-	public long writeRole(RoleVO role) {
+	public long writeRole(RoleVO roleVO) throws ValidationException, DataWriteException {
 		try {
-			if (role == null) {
-				throw new RuntimeException("Role object cannot be null!");
+			IValidationResult result = roleValidator.isValid(roleVO);
+			if (!result.isValid()) {
+				throw new ValidationException(result);
 			}
-			return accessManager.writeRole(role);
-		} catch (RuntimeException ex) {
+			return accessManager.writeRole(roleVO);
+		} catch (DBException ex) {
 			Logger.getLogger(getClass()).error("Error on writeRole : ",ex);
-			throw ex;
+			throw new DataWriteException(ex);
 		}
 	}
 
-	public boolean removeRole(RoleVO role) {
+	public boolean removeRole(RoleVO roleVO) throws ValidationException, DataWriteException {
 		try {
-			if (role == null) {
-				throw new RuntimeException("Role object cannot be null!");
+			IValidationResult result = roleValidator.isIdentityValid(roleVO);
+			if (!result.isValid()) {
+				throw new ValidationException(result);
 			}
-			return accessManager.removeRole(role);
-		} catch (RuntimeException ex) {
+			return accessManager.removeRole(roleVO);
+		} catch (DBException ex) {
 			Logger.getLogger(getClass()).error("Error on removeRole : ",ex);
-			throw ex;
+			throw new DataWriteException(ex);
 		}
 	}
 

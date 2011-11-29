@@ -14,6 +14,10 @@
 			<td>${pageContext.exception}</td>
 		</tr>
 		<tr valign="top">
+			<td width="40%"><b>Message</b></td>
+			<td>${requestScope['javax.servlet.error.message']}</td>
+		</tr>
+		<tr valign="top">
 			<td><b>URI:</b></td>
 			<td>${pageContext.errorData.requestURI}</td>
 		</tr>

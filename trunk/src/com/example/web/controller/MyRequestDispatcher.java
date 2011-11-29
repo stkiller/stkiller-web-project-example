@@ -9,9 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.example.web.entities.execution.ExecutionContext;
+import com.example.web.entities.resolution.IResolution;
 import com.example.web.handlers.IRequestHandler;
 import com.example.web.helper.AvailableActionType;
-import com.example.web.resolution.IResolution;
 
 @WebServlet(urlPatterns = "/index.html")
 public class MyRequestDispatcher extends HttpServlet {
@@ -46,7 +47,7 @@ public class MyRequestDispatcher extends HttpServlet {
 			IOException {
 		IRequestHandler handler = handlers.get(action);
 		if (handler != null) {
-			IResolution resolution = handler.parseRequest(req, resp);
+			IResolution resolution = handler.parseRequest(new ExecutionContext(req, resp));
 			resolution.execute(req, resp);
 		} else {
 			throw new RuntimeException("Sorry, no handler available for this action");
