@@ -14,7 +14,7 @@ import com.example.web.entities.resolution.IResolution;
 import com.example.web.handlers.IRequestHandler;
 import com.example.web.helper.AvailableActionType;
 
-@WebServlet(urlPatterns = "/index.html")
+@WebServlet(urlPatterns = {"/index.html"})
 public class MyRequestDispatcher extends HttpServlet {
 	private static final long serialVersionUID = 456065448089861136L;
 	Map<AvailableActionType, IRequestHandler> handlers;
