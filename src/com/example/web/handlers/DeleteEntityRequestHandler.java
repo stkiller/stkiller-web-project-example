@@ -14,7 +14,6 @@ import com.example.web.entities.execution.IExecutionContext;
 import com.example.web.entities.resolution.IResolution;
 import com.example.web.entities.resolution.RedirectResolution;
 import com.example.web.helper.AvailableActionType;
-import com.example.web.helper.BeanUtilsHelper;
 
 public class DeleteEntityRequestHandler implements IRequestHandler {
 
