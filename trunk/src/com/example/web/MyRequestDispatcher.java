@@ -1,4 +1,4 @@
-package com.example.web.controller;
+package com.example.web;
 
 import java.io.IOException;
 import java.util.Map;
