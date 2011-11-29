@@ -1,4 +1,4 @@
-package com.example.web.resolution;
+package com.example.web.entities.resolution;
 
 import java.io.IOException;
 

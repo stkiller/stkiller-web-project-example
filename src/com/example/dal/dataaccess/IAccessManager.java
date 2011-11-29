@@ -14,14 +14,14 @@ public interface IAccessManager {
 	 * @return a list of {@link UserVO} from the used DB
 	 * @throws DBException
 	 */
-	public abstract List<UserVO> retrieveUsers();
+	public abstract List<UserVO> retrieveUsers() throws DBException;
 
 	/**
 	 * 
 	 * @return a list of {@link UserVO} with filled groups
 	 * @throws DBException
 	 */
-	public abstract List<UserVO> retrieveUsersWithGroups();
+	public abstract List<UserVO> retrieveUsersWithGroups() throws DBException;
 
 	/**
 	 * Retrieves the {@link UserVO} with specified ID
@@ -31,7 +31,7 @@ public interface IAccessManager {
 	 * @return {@link UserVO}
 	 * @throws DBException
 	 */
-	public abstract UserVO retrieveUser(Long id);
+	public abstract UserVO retrieveUser(Long id) throws DBException;
 
 	/**
 	 * Retrieves the {@link UserVO} with {@link GroupVO} filled
@@ -41,7 +41,7 @@ public interface IAccessManager {
 	 * @return {@link UserVO} with {@link GroupVO} filled
 	 * @throws DBException
 	 */
-	public abstract UserVO retrieveUserWithGroup(Long id);
+	public abstract UserVO retrieveUserWithGroup(Long id) throws DBException;
 
 	/**
 	 * Writes the specified {@link UserVO}
@@ -51,7 +51,7 @@ public interface IAccessManager {
 	 * @return the id of written user.
 	 * @throws DBException
 	 */
-	public abstract long writeUser(UserVO userVO);
+	public abstract long writeUser(UserVO userVO) throws DBException;
 
 	/**
 	 * Removes the specified {@link UserVO}
@@ -61,7 +61,7 @@ public interface IAccessManager {
 	 * @return true if the user was successfully deleted, false otherwise
 	 * @throws DBException
 	 */
-	public abstract boolean removeUser(UserVO user);
+	public abstract boolean removeUser(UserVO user) throws DBException;
 
 	/**
 	 * Retrieves a list of {@link GroupVO}
@@ -69,7 +69,7 @@ public interface IAccessManager {
 	 * @return List of {@link GroupVO}
 	 * @throws DBException
 	 */
-	public abstract List<GroupVO> retrieveGroups();
+	public abstract List<GroupVO> retrieveGroups() throws DBException;
 
 	/**
 	 * Retrieves the {@link GroupVO} with specified groupID
@@ -79,7 +79,7 @@ public interface IAccessManager {
 	 * @return {@link GroupVO} if such a group is presented, null otherwise
 	 * @throws DBException
 	 */
-	public abstract GroupVO retrieveGroup(Long id);
+	public abstract GroupVO retrieveGroup(Long id) throws DBException;
 
 	/**
 	 * Write the specified {@link GroupVO}
@@ -89,7 +89,7 @@ public interface IAccessManager {
 	 * @return the id of written {@link GroupVO}
 	 * @throws DBException
 	 */
-	public abstract long writeGroup(GroupVO group);
+	public abstract long writeGroup(GroupVO group) throws DBException;
 
 	/**
 	 * Remove the specified {@link GroupVO} object
@@ -99,7 +99,7 @@ public interface IAccessManager {
 	 * @return true if the object was successfully removed, false otherwise
 	 * @throws DBException
 	 */
-	public abstract boolean removeGroup(GroupVO group);
+	public abstract boolean removeGroup(GroupVO group) throws DBException;
 
 	/**
 	 * Retrieves a list of {@link RoleVO} objects with associated groups
@@ -107,7 +107,7 @@ public interface IAccessManager {
 	 * @return a list of {@link RoleVO} objects
 	 * @throws DBException
 	 */
-	public abstract List<RoleVO> retrieveRoles();
+	public abstract List<RoleVO> retrieveRoles() throws DBException;
 
 	/**
 	 * Retrieves a single {@link RoleVO} object with associated groups
@@ -117,7 +117,7 @@ public interface IAccessManager {
 	 * @return the target {@link RoleVO} object, if it's found, null otherwise
 	 * @throws DBException
 	 */
-	public abstract RoleVO retrieveRole(Long id);
+	public abstract RoleVO retrieveRole(Long id) throws DBException;
 
 	/**
 	 * Writes {@link RoleVO} and associated {@link GroupVO} objects
@@ -126,7 +126,7 @@ public interface IAccessManager {
 	 * @return the id of written {@link RoleVO} object
 	 * @throws DBException
 	 */
-	public abstract long writeRole(RoleVO role);
+	public abstract long writeRole(RoleVO role) throws DBException;
 
 	/**
 	 * Remove the specified {@link RoleVO} object
@@ -137,6 +137,6 @@ public interface IAccessManager {
 	 *         otherwise
 	 * @throws DBException
 	 */
-	public abstract boolean removeRole(RoleVO role);
+	public abstract boolean removeRole(RoleVO role) throws DBException;
 
 }

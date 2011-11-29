@@ -4,23 +4,25 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.example.bl.dataaccess.IBLAccessManager;
+import com.example.bl.exceptions.DataRetrievalException;
+import com.example.bl.exceptions.DataWriteException;
+import com.example.bl.exceptions.ValidationException;
 import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.UserVO;
+import com.example.web.entities.execution.IExecutionContext;
+import com.example.web.entities.resolution.ForwardResolution;
+import com.example.web.entities.resolution.IResolution;
+import com.example.web.entities.resolution.RedirectResolution;
 import com.example.web.helper.AvailableActionType;
 import com.example.web.helper.BeanUtilsHelper;
-import com.example.web.resolution.ForwardResolution;
-import com.example.web.resolution.IResolution;
-import com.example.web.resolution.RedirectResolution;
 
 public class AddUserRequestHandler implements IRequestHandler {
 	private static final String ADD_USER_JSP = "/WEB-INF/view/AddUser.jsp";
 
 	private IBLAccessManager accessManager;
-	private BeanUtilsHelper beanUtilsHelper;	
+	private BeanUtilsHelper beanUtilsHelper;
 
 	public AddUserRequestHandler(IBLAccessManager accessManager, BeanUtilsHelper beanUtilsHelper) {
 		super();
@@ -29,25 +31,39 @@ public class AddUserRequestHandler implements IRequestHandler {
 	}
 
 	@Override
-	public IResolution parseRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if (!req.getParameterMap().containsKey("name")) {
-			if(req.getParameterMap().containsKey("id")){
-			String userId = req.getParameter("id");
-			UserVO user = null;
-			if (userId != null) {
-				user = accessManager.retrieveUser(new Long(userId));
-				req.setAttribute("user", user);
-			}}
-			List<GroupVO> groups;
-			groups = accessManager.retrieveGroups();
-			req.setAttribute("groups", groups);
-			return new ForwardResolution(ADD_USER_JSP);
+	public IResolution parseRequest(IExecutionContext context) throws ServletException, IOException {
+		if (!context.isParameterPresent("name")) {
+			try {
+				if (context.isParameterPresent("id")) {
+					String userId = context.getParameter("id");
+					UserVO user = null;
+					if (userId != null) {
+						user = accessManager.retrieveUser(new Long(userId));
+						context.setAttribute("user", user);
+					}
+				}
+				List<GroupVO> groups;
+				groups = accessManager.retrieveGroups();
+				context.setAttribute("groups", groups);
+				return new ForwardResolution(ADD_USER_JSP);
+			} catch (DataRetrievalException ex) {
+				throw new RuntimeException(ex);
+			}
 		} else {
-			UserVO user = new UserVO();
-			beanUtilsHelper.populateBean(user, req.getParameterMap());
-			user.setGroup(accessManager.retrieveGroup(Long.parseLong(req.getParameter("group_id"))));
-			accessManager.writeUser(user);
-			return new RedirectResolution("index.html?action="+AvailableActionType.VIEW);
+			try {
+				UserVO user = new UserVO();
+				beanUtilsHelper.populateBean(user, context.getParameterMap());
+				user.setGroup(accessManager.retrieveGroup(Long.parseLong(context.getParameter("group_id"))));
+				accessManager.writeUser(user);
+				return new RedirectResolution("index.html?action=" + AvailableActionType.VIEW);
+			} catch (ValidationException ex) {
+				context.addValidationError(ex.getValidationResult().getValidationResultMessage());
+				return new ForwardResolution(ADD_USER_JSP);
+			} catch (DataRetrievalException ex) {
+				throw new RuntimeException(ex);
+			} catch (DataWriteException ex) {
+				throw new RuntimeException(ex);
+			}
 		}
 	}
 
