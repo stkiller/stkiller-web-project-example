@@ -12,6 +12,9 @@
 	<div class="inner">
 		<c:import url="/WEB-INF/view/Header.jsp"></c:import>
 		<center>
+			<c:forEach var="message" items="${validation}">
+				<div style="color: red;">${message}</div>
+			</c:forEach>
 			<form action="index.html?action=add_user" method="post">
 				<input type="hidden" name="id" value="${user.id}" /> User name : <input
 					type="text" name="name" value="${user.name}" /><br /> User login :

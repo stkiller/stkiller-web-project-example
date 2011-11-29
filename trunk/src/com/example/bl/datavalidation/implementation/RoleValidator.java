@@ -11,8 +11,8 @@ public class RoleValidator implements IValidator<RoleVO> {
 		if(object ==null ){
 			return new ValidationResult(false, "Role object cannot be null");
 		}
-		if(object.getName()==null || object.getName().length()<5){
-			return new ValidationResult(false, "Role name cannot be null or shorter than 5 chars");
+		if(object.getName()==null || object.getName().length()<3){
+			return new ValidationResult(false, "Role name cannot be null or shorter than 3 chars");
 		}
 		return new ValidationResult(true, "");
 	}

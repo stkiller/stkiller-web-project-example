@@ -12,9 +12,9 @@
 	<div class="inner">
 		<c:import url="/WEB-INF/view/Header.jsp"></c:import>
 		<center>
-			<c:if test="${validation != null && validation != \"\" }">
-				<div style="color: red;">${validation}</div>
-			</c:if>
+			<c:forEach var="message" items="${validation}">
+				<div style="color: red;">${message}</div>
+			</c:forEach>
 			<form action="index.html?action=add_group" method="post">
 				<input type="hidden" value="${group.id}" name="id"/>
 				Group name : <input type="text" name="name" value="${group.name }"/><br /> 
@@ -22,7 +22,7 @@
 				<div>
 				Group roles : 
 				<c:forEach var="role" items="${roles}">
-					<input type="checkbox" name="roles_id" value="${role.id}" />${role.name}
+							<input type="checkbox" name="roles_id" value="${role.id}" ${group.roles.contains(role) ? 'checked' : ''}/>${role.name}						
 				</c:forEach>
 				</div>
 				<input type="submit" value="Submit">

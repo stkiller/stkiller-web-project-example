@@ -34,31 +34,13 @@ public class AddUserRequestHandler implements IRequestHandler {
 	public IResolution parseRequest(IExecutionContext context) throws ServletException, IOException {
 		if (!context.isParameterPresent("name")) {
 			try {
-				if (context.isParameterPresent("id")) {
-					String userId = context.getParameter("id");
-					UserVO user = null;
-					if (userId != null) {
-						user = accessManager.retrieveUser(new Long(userId));
-						context.setAttribute("user", user);
-					}
-				}
-				List<GroupVO> groups;
-				groups = accessManager.retrieveGroups();
-				context.setAttribute("groups", groups);
-				return new ForwardResolution(ADD_USER_JSP);
+				return parseEditRequest(context);
 			} catch (DataRetrievalException ex) {
 				throw new RuntimeException(ex);
 			}
 		} else {
 			try {
-				UserVO user = new UserVO();
-				beanUtilsHelper.populateBean(user, context.getParameterMap());
-				user.setGroup(accessManager.retrieveGroup(Long.parseLong(context.getParameter("group_id"))));
-				accessManager.writeUser(user);
-				return new RedirectResolution("index.html?action=" + AvailableActionType.VIEW);
-			} catch (ValidationException ex) {
-				context.addValidationError(ex.getValidationResult().getValidationResultMessage());
-				return new ForwardResolution(ADD_USER_JSP);
+				return parseAddRequest(context);
 			} catch (DataRetrievalException ex) {
 				throw new RuntimeException(ex);
 			} catch (DataWriteException ex) {
@@ -67,4 +49,35 @@ public class AddUserRequestHandler implements IRequestHandler {
 		}
 	}
 
+	private IResolution parseEditRequest(IExecutionContext context) throws DataRetrievalException {
+		UserVO user = null;
+		if (context.isParameterPresent("id")) {
+			String userId = context.getParameter("id");
+			if (userId != null) {
+				user = accessManager.retrieveUser(new Long(userId));
+			}
+		}
+		return parseEditRequest(user, context);
+	}
+
+	private IResolution parseEditRequest(UserVO user, IExecutionContext context) throws DataRetrievalException {
+		context.setAttribute("user", user);
+		List<GroupVO> groups;
+		groups = accessManager.retrieveGroups();
+		context.setAttribute("groups", groups);
+		return new ForwardResolution(ADD_USER_JSP);
+	}
+	
+	private IResolution parseAddRequest(IExecutionContext context) throws DataRetrievalException, DataWriteException{
+		UserVO user = new UserVO();
+		try {
+			beanUtilsHelper.populateBean(user, context.getParameterMap());
+			user.setGroup(accessManager.retrieveGroup(Long.parseLong(context.getParameter("group_id"))));
+			accessManager.writeUser(user);
+			return new RedirectResolution("index.html?action=" + AvailableActionType.VIEW);
+		} catch (ValidationException ex) {
+			context.addValidationError(ex.getValidationResult().getValidationResultMessage());
+			return parseEditRequest(user, context);
+		}
+	}
 }

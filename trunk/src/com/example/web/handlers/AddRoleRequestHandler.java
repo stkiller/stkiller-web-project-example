@@ -33,29 +33,41 @@ public class AddRoleRequestHandler implements IRequestHandler {
 
 		if (!context.isParameterPresent("name")) {
 			try {
-				if (context.isParameterPresent("id")) {
-					RoleVO role = accessManager.retrieveRole(new Long(context.getParameter("id")));
-					if (role != null) {
-						context.setAttribute("role", role);
-					}
-				}
-				return new ForwardResolution(FORWARD_PATH);
+				return parseEditRequest(context);
 			} catch (DataRetrievalException ex) {
 				throw new RuntimeException(ex);
 			}
 		} else {
 			try {
-				RoleVO role = new RoleVO();
-				beanHelper.populateBean(role, context.getParameterMap());
-				accessManager.writeRole(role);
-				return new RedirectResolution("index.html?action=" + AvailableActionType.VIEW);
-			} catch (ValidationException ex) {
-				context.addValidationError(ex.getValidationResult().getValidationResultMessage());
-				return new ForwardResolution(FORWARD_PATH);
+				return parseAddRequest(context);
 			} catch (DataWriteException e) {
 				throw new RuntimeException(e);
 			}
 		}
 	}
 
+	private IResolution parseEditRequest(IExecutionContext context) throws DataRetrievalException {
+		RoleVO role = null;
+		if (context.isParameterPresent("id")) {
+			role = accessManager.retrieveRole(new Long(context.getParameter("id")));
+		}
+		return parseEditRequest(role, context);
+	}
+
+	private IResolution parseEditRequest(RoleVO role, IExecutionContext context) {
+		context.setAttribute("role", role);
+		return new ForwardResolution(FORWARD_PATH);
+	}
+
+	private IResolution parseAddRequest(IExecutionContext context) throws DataWriteException {
+		RoleVO role = new RoleVO();
+		try {
+			beanHelper.populateBean(role, context.getParameterMap());
+			accessManager.writeRole(role);
+			return new RedirectResolution("index.html?action=" + AvailableActionType.VIEW);
+		} catch (ValidationException ex) {
+			context.addValidationError(ex.getValidationResult().getValidationResultMessage());
+			return parseEditRequest(role, context);
+		}
+	}
 }

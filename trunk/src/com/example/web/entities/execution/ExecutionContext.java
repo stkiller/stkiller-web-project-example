@@ -1,23 +1,33 @@
 package com.example.web.entities.execution;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ExecutionContext implements IExecutionContext{
+public class ExecutionContext implements IExecutionContext {
 	HttpServletRequest request;
 	HttpServletResponse response;
-	
+
 	public ExecutionContext(HttpServletRequest request, HttpServletResponse response) {
 		super();
 		this.request = request;
 		this.response = response;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void addValidationError(String message) {
-		request.setAttribute("validation", message);
+		List<String> messages;
+		if (request.getAttribute("validation") == null) {
+			messages = new ArrayList<String>();
+		} else {
+			messages = (List<String>) request.getAttribute("validation");
+		}
+		messages.add(message);
+		request.setAttribute("validation", messages);
 	}
 
 	@Override
@@ -63,7 +73,6 @@ public class ExecutionContext implements IExecutionContext{
 	@Override
 	public void setAttribute(String arg0, Object arg1) {
 		request.setAttribute(arg0, arg1);
-	}		
-	
-	
+	}
+
 }
