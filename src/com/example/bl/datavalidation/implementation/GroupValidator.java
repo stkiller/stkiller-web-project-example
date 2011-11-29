@@ -11,11 +11,11 @@ public class GroupValidator implements IValidator<GroupVO> {
 		if(object ==null ){
 			return new ValidationResult(false, "Group object cannot be null");
 		}
-		if(object.getName()==null || object.getName().length()<5){
-			return new ValidationResult(false, "Group name cannot be null or shorter than 5 chars :"+object.getName());
+		if(object.getName()==null || object.getName().length()<3){
+			return new ValidationResult(false, "Group name cannot be null or shorter than 3 chars");
 		}
 		if(object.getRoles()==null || object.getRoles().size()<1){
-			return new ValidationResult(false, "Group should have at least one role : "+object.getRoles());
+			return new ValidationResult(false, "Group should have at least one role");
 		}
 		return new ValidationResult(true, "");
 	}
@@ -26,7 +26,7 @@ public class GroupValidator implements IValidator<GroupVO> {
 			return new ValidationResult(false, "Group object cannot be null");
 		}
 		if(object.getId()==null || object.getId()<1){
-			return new ValidationResult(false, "Group id cannot be null or lesser that 1 :"+object.getId());
+			return new ValidationResult(false, "Group id cannot be null or lesser that 1");
 		}
 		return new ValidationResult(true, "");
 	}

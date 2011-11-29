@@ -83,7 +83,7 @@ public class AddGroupRequestHandler implements IRequestHandler {
 			accessManager.writeGroup(group);
 			return new RedirectResolution("index.html?action=" + AvailableActionType.VIEW);
 		} catch (ValidationException e) {
-			context.setAttribute("validation", e.getValidationResult().getValidationResultMessage());
+			context.addValidationError(e.getValidationResult().getValidationResultMessage());
 			parseEditRequest(group, context);
 			return new ForwardResolution(VIEW);
 		}

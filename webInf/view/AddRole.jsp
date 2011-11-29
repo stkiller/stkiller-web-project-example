@@ -12,9 +12,12 @@
 	<div class="inner">
 		<c:import url="/WEB-INF/view/Header.jsp"></c:import>
 		<center>
+			<c:forEach var="message" items="${validation}">
+				<div style="color: red;">${message}</div>
+			</c:forEach>
 			<form action="index.html?action=add_role" method="post">
 				<input type="hidden" value="${role.id}" name="id"/>
-				Role name : <input type="text" name="name" value="${role.name }"/><br /> 
+				Role name : <input type="text" name="name" value="${role.name}"/><br /> 
 				Role description : <input type="text" name="description" value="${role.description }"/><br /> 
 				<input type="submit" value="Submit">
 			</form>
