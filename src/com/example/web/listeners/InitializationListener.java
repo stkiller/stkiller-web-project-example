@@ -17,6 +17,8 @@ import com.example.web.handlers.AddRoleRequestHandler;
 import com.example.web.handlers.AddUserRequestHandler;
 import com.example.web.handlers.DeleteEntityRequestHandler;
 import com.example.web.handlers.IRequestHandler;
+import com.example.web.handlers.LoginErrorHandler;
+import com.example.web.handlers.LoginHandler;
 import com.example.web.handlers.ViewAllRequestHandler;
 import com.example.web.helper.AvailableActionType;
 import com.example.web.helper.BeanUtilsHelper;
@@ -49,6 +51,8 @@ public class InitializationListener implements ServletContextListener {
 		availableHandlers.put(AvailableActionType.DELETE_ENTITY, new DeleteEntityRequestHandler(accessManager));
 		availableHandlers.put(AvailableActionType.ADD_USER, new AddUserRequestHandler(accessManager, beanHelper));
 		availableHandlers.put(AvailableActionType.ADD_ROLE, new AddRoleRequestHandler(accessManager, beanHelper));
+		availableHandlers.put(AvailableActionType.LOGIN, new LoginHandler());
+		availableHandlers.put(AvailableActionType.LOGIN_ERROR, new LoginErrorHandler());
 		contextEvent.getServletContext().setAttribute("handlers", availableHandlers);
 
 	}
