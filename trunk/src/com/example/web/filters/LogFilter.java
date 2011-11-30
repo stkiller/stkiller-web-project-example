@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
-@WebFilter(urlPatterns={"/index.html"})
+@WebFilter(urlPatterns={"/*"})
 public class LogFilter implements Filter {
 
 	@Override
@@ -49,7 +49,7 @@ public class LogFilter implements Filter {
 			}
 			parameters+="]";
 		}
-		parameters = req.getRequestURI()+"?"+parameters;
+		parameters = "["+req.getRemoteHost()+"]"+req.getRequestURI()+"?"+parameters;
 		Logger.getLogger(getClass()).info("Incoming request: "+parameters);
 	}
 
