@@ -5,7 +5,9 @@ public enum AvailableActionType {
 	ADD_USER("add_user"),
 	ADD_GROUP("add_group"),
 	ADD_ROLE("add_role"),
-	DELETE_ENTITY("delete_entity");
+	DELETE_ENTITY("delete_entity"),
+	LOGIN("login"),
+	LOGIN_ERROR("login_error");
 	
 	private final String name;
 	
