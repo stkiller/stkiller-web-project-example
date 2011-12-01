@@ -1,8 +1,18 @@
 package com.example.dal.valueobject;
 
-public abstract class ValueObject implements Comparable<ValueObject> {
+import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+
+public abstract class ValueObject implements Serializable,Comparable<ValueObject> {
+	private static final long serialVersionUID = -2634242514176783277L;
+
+	@Id
+	@Column(name="id")
 	protected Long id;
+	
+	@Column(name="name")
 	protected String name;
 
 	public ValueObject() {

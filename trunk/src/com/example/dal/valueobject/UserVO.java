@@ -1,10 +1,28 @@
 package com.example.dal.valueobject;
 
-public class UserVO extends ValueObject {
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="users")
+public class UserVO extends ValueObject {
+	private static final long serialVersionUID = 397303372759738081L;
+
+	@Column(name="login")
 	private String login;
+	
+	@Column(name="password")
 	private String password;
+	
+	@Column(name="group_id")
 	private Long groupID;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(referencedColumnName="group_id")
 	private GroupVO group;
 
 	public UserVO(){

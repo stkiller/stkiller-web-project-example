@@ -1,8 +1,15 @@
 package com.example.dal.valueobject;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="roles")
 public class RoleVO extends ValueObject {
-
+	private static final long serialVersionUID = -8135306853787087895L;
+	
+	@Column(name="description")
 	private String description;
 
 	public RoleVO(){

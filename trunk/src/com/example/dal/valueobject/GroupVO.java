@@ -3,14 +3,27 @@ package com.example.dal.valueobject;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "groups")
 public class GroupVO extends ValueObject {
+	private static final long serialVersionUID = 8931275631737519968L;
+	
+	@Column(name = "description")
 	String description;
+	@OneToMany()
+	@JoinColumn(referencedColumnName = "hz")
 	List<RoleVO> roles;
 
-	public GroupVO(){
-		
+	public GroupVO() {
+
 	}
-	
+
 	public GroupVO(String name, String description) {
 		super(name);
 		this.description = description;
