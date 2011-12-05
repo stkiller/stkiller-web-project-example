@@ -1,7 +1,7 @@
 package com.example.dal.factories;
 
 public enum DAOFactoryType {
-	POSTGRE, MS_SQL;
+	POSTGRE, MS_SQL, HIBERNATE;
 
 	public String toString() {
 		switch (this) {
@@ -11,6 +11,9 @@ public enum DAOFactoryType {
 			case MS_SQL: {
 				return "MS SQL";
 			}
+            case HIBERNATE:{
+                return "Hibernate";
+            }
 			default: {
 				return "Unknown DAOFactory type";
 			}

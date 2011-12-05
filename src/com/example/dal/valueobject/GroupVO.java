@@ -1,66 +1,59 @@
 package com.example.dal.valueobject;
 
+import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "groups")
 public class GroupVO extends ValueObject {
-	private static final long serialVersionUID = 8931275631737519968L;
-	
-	@Column(name = "description")
-	String description;
-	@OneToMany()
-	@JoinColumn(referencedColumnName = "hz")
-	List<RoleVO> roles;
+    private static final long serialVersionUID = 8931275631737519968L;
 
-	public GroupVO() {
+    @Column(name = "description")
+    String description;
+    @OneToMany()
+    List<RoleVO> roles;
 
-	}
+    public GroupVO() {
 
-	public GroupVO(String name, String description) {
-		super(name);
-		this.description = description;
-		roles = new LinkedList<RoleVO>();
-	}
+    }
 
-	public GroupVO(Long id, String name, String description) {
-		super(id, name);
-		this.description = description;
-		roles = new LinkedList<RoleVO>();
-	}
+    public GroupVO(String name, String description) {
+        super(name);
+        this.description = description;
+        roles = new LinkedList<RoleVO>();
+    }
 
-	public void setRoles(List<RoleVO> roles) {
-		this.roles = roles;
-	}
+    public GroupVO(Long id, String name, String description) {
+        super(id, name);
+        this.description = description;
+        roles = new LinkedList<RoleVO>();
+    }
 
-	public List<RoleVO> getRoles() {
-		return roles;
-	}
+    public void setRoles(List<RoleVO> roles) {
+        this.roles = roles;
+    }
 
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
+    public List<RoleVO> getRoles() {
+        return roles;
+    }
 
-	/**
-	 * @param description
-	 *            the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
 
-	@Override
-	public String toString() {
-		return "GroupVO [description=" + description + ", roles=" + roles + ", id=" + id + ", name=" + name + "]";
-	}
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "GroupVO [description=" + description + ", roles=" + roles + ", id=" + id + ", name=" + name + "]";
+    }
 }
