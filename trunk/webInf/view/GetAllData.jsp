@@ -11,9 +11,8 @@
 <body>
  	<div class="inner">
     <c:import url="/WEB-INF/view/Header.jsp"></c:import>
-    <center>
     <h3>Users</h3>
-	<table border="1" >
+	<table border="1" align="center">
 		<tr>
 			<th>ID</th><th>Name</th><th>Login</th><th>Password</th><th>Group Name</th><th>Edit</th><th>Remove</th>
 		</tr>
@@ -26,11 +25,9 @@
 		</tr>
 		</c:forEach>
 	</table>
-	</center>
-	
-    <center>
+
     <h3>Groups</h3>
-	<table border="1" >
+	<table border="1" align="center">
 		<tr>
 			<th>ID</th><th>Name</th><th>Description</th><th>Edit</th><th>Remove</th>
 		</tr>
@@ -42,11 +39,9 @@
 		</tr>
 		</c:forEach>
 	</table>
-	</center>
 		
-    <center>
     <h3>Roles</h3>
-	<table border="1" >
+	<table border="1" align="center">
 		<tr>
 			<th>ID</th><th>Name</th><th>Description</th><th>Edit</th><th>Remove</th>
 		</tr>
@@ -58,7 +53,6 @@
 		</tr>
 		</c:forEach>
 	</table>
-	</center>
 	</div>
 </body>
 </html>
