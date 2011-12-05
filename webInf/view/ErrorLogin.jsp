@@ -11,9 +11,9 @@
 <body>
 	<div class="inner">
 		<c:import url="/WEB-INF/view/Header.jsp"></c:import>
-		<center>
+		<div style="text-align: center;">
 			<h2>Sorry, man, entered credentials aren't correct</h2>
-		</center>
+		</div>
 	</div>
 </body>
 </html>

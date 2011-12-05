@@ -11,13 +11,13 @@
 <body>
 	<div class="inner">
 		<c:import url="/WEB-INF/view/Header.jsp"></c:import>
-		<center>
+		<div style="text-align: center;">
 		<form method="POST" action="j_security_check">
 			User name : <input type="text" name="j_username"> <br/>
 			User pass<input type="password" name="j_password"> <br/>
 			<input type="submit" value="Enter"> <br/>
 		</form>
-		</center>
+		</div>
 	</div>
 </body>
 </html>

@@ -3,8 +3,6 @@
  */
 package com.example.bl.dataaccess;
 
-import java.util.List;
-
 import com.example.bl.exceptions.DataRetrievalException;
 import com.example.bl.exceptions.DataWriteException;
 import com.example.bl.exceptions.ValidationException;
@@ -12,6 +10,8 @@ import com.example.dal.exceptions.DBException;
 import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.RoleVO;
 import com.example.dal.valueobject.UserVO;
+
+import java.util.List;
 
 /**
  * @author apodoprigora

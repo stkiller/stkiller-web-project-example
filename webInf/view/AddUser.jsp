@@ -11,7 +11,7 @@
 <body>
 	<div class="inner">
 		<c:import url="/WEB-INF/view/Header.jsp"></c:import>
-		<center>
+		<div style="text-align: center;">
 			<c:forEach var="message" items="${validation}">
 				<div style="color: red;">${message}</div>
 			</c:forEach>
@@ -34,7 +34,7 @@
 					</c:forEach>
 				</select> <input type="submit" value="Submit">
 			</form>
-		</center>
+		</div>
 	</div>
 </body>
 </html>
