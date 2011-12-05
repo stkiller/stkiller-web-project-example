@@ -3,17 +3,18 @@
  */
 package com.example.dal.factories;
 
-import java.sql.Connection;
-
 import com.example.dal.dao.IBaseDao;
 import com.example.dal.dao.IManyToManyDAO;
 import com.example.dal.exceptions.DBException;
 import com.example.dal.exceptions.NoSuchFactoryException;
+import com.example.dal.factories.hibernate.HibernateDaoFactory;
 import com.example.dal.factories.ms_sql.MSSqlDAOFactory;
 import com.example.dal.factories.postgre.PostgreDAOFactory;
 import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.RoleVO;
 import com.example.dal.valueobject.UserVO;
+
+import java.sql.Connection;
 
 /**
  * @author stkiller
@@ -90,6 +91,9 @@ public abstract class AbstractDAOFactory {
 			case MS_SQL:{
 				return new MSSqlDAOFactory(userName, userPassword, dbURL);
 			}
+            case HIBERNATE:{
+                return new HibernateDaoFactory(userName, userPassword, dbURL);
+            }
 			default:
 				throw new NoSuchFactoryException(String.format("There is no such DAO factory: %1$s", DAOType));
 		}
