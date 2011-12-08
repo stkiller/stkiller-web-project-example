@@ -1,14 +1,14 @@
 package com.example.dal.factories.postgre;
 
+import com.example.dal.dao.IManyToManyDAO;
+import com.example.dal.valueobject.GroupVO;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.example.dal.dao.IManyToManyDAO;
-import com.example.dal.valueobject.GroupVO;
 
 public class PostgreGroupDAO implements IManyToManyDAO<GroupVO> {
 
@@ -36,14 +36,14 @@ public class PostgreGroupDAO implements IManyToManyDAO<GroupVO> {
 	public boolean removeDependent(GroupVO owner, Long dependentID, Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
 		int result = statement.executeUpdate(String.format(REMOVE_ROLE, owner.getId(), dependentID));
-		return 0 < result ? true : false;
+		return 0 < result;
 	}
 
 	@Override
 	public boolean addDependent(GroupVO owner, Long dependentID, Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
 		int result = statement.executeUpdate(String.format(ADD_ROLE, owner.getId(), dependentID));
-		return 0 < result ? true : false;
+		return 0 < result;
 	}
 
 	@Override
@@ -75,14 +75,14 @@ public class PostgreGroupDAO implements IManyToManyDAO<GroupVO> {
 		Statement statement = connection.createStatement();
 		int result = statement
 				.executeUpdate(String.format(UPDATE, item.getId(), item.getName(), item.getDescription()));
-		return 0 < result ? true : false;
+		return 0 < result;
 	}
 
 	@Override
 	public boolean delete(GroupVO item, Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
 		int result = statement.executeUpdate(String.format(DELETE, item.getId()));
-		return 0 < result ? true : false;
+		return 0 < result;
 	}
 
 	@Override

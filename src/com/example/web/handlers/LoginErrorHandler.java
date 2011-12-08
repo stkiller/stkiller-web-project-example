@@ -1,9 +1,5 @@
 package com.example.web.handlers;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-
 import com.example.web.entities.execution.IExecutionContext;
 import com.example.web.entities.resolution.ForwardResolution;
 import com.example.web.entities.resolution.IResolution;
@@ -13,7 +9,7 @@ public class LoginErrorHandler implements IRequestHandler {
 	
 	
 	@Override
-	public IResolution parseRequest(IExecutionContext context) throws ServletException, IOException {
+	public IResolution parseRequest(IExecutionContext context){
 		return new ForwardResolution(PATH);
 	}
 

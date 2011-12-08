@@ -1,9 +1,5 @@
 package com.example.web.handlers;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-
 import com.example.bl.dataaccess.IBLAccessManager;
 import com.example.bl.exceptions.DataRetrievalException;
 import com.example.bl.exceptions.DataWriteException;
@@ -29,8 +25,7 @@ public class AddRoleRequestHandler implements IRequestHandler {
 	}
 
 	@Override
-	public IResolution parseRequest(IExecutionContext context) throws ServletException, IOException {
-
+	public IResolution parseRequest(IExecutionContext context){
 		if (!context.isParameterPresent("name")) {
 			try {
 				return parseEditRequest(context);

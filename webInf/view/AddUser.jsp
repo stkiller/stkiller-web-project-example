@@ -28,7 +28,7 @@
 								<option value="${group.id }" selected="selected">${group.name}</option>
 							</c:when>
 							<c:otherwise>
-								<option value="${group.id }"">${group.name }</option>
+								<option value="${group.id }">${group.name }</option>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>

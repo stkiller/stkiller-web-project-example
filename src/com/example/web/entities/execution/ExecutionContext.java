@@ -1,15 +1,14 @@
 package com.example.web.entities.execution;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 public class ExecutionContext implements IExecutionContext {
-	HttpServletRequest request;
-	HttpServletResponse response;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
 
 	public ExecutionContext(HttpServletRequest request, HttpServletResponse response) {
 		super();
@@ -74,5 +73,4 @@ public class ExecutionContext implements IExecutionContext {
 	public void setAttribute(String arg0, Object arg1) {
 		request.setAttribute(arg0, arg1);
 	}
-
 }

@@ -10,9 +10,9 @@ public class GroupVO extends ValueObject {
     private static final long serialVersionUID = 8931275631737519968L;
 
     @Column(name = "description")
-    String description;
+    private String description;
     @OneToMany()
-    List<RoleVO> roles;
+    private List<RoleVO> roles;
 
     public GroupVO() {
 

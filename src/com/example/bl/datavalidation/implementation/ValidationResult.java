@@ -3,14 +3,14 @@ package com.example.bl.datavalidation.implementation;
 import com.example.bl.datavalidation.interfaces.IValidationResult;
 
 public class ValidationResult implements IValidationResult {
-	private boolean valid;
+	private boolean invalid;
 	private String message;
 	
 	public ValidationResult(){}
 	
-	public ValidationResult(boolean valid, String message) {
+	public ValidationResult(boolean invalid, String message) {
 		super();
-		this.valid = valid;
+		this.invalid = invalid;
 		this.message = message;
 	}
 	@Override
@@ -18,12 +18,12 @@ public class ValidationResult implements IValidationResult {
 		return message;
 	}
 	@Override
-	public boolean isValid() {
-		return valid;
+	public boolean isInvalid() {
+		return invalid;
 	}
 	@Override
-	public void setValid(boolean valid) {
-		this.valid=valid;
+	public void setInvalid(boolean invalid) {
+		this.invalid =invalid;
 	}
 	
 	@Override
