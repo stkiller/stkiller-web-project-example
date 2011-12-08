@@ -1,10 +1,5 @@
 package com.example.web.handlers;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.ServletException;
-
 import com.example.bl.dataaccess.IBLAccessManager;
 import com.example.bl.exceptions.DataRetrievalException;
 import com.example.dal.valueobject.GroupVO;
@@ -13,6 +8,8 @@ import com.example.dal.valueobject.UserVO;
 import com.example.web.entities.execution.IExecutionContext;
 import com.example.web.entities.resolution.ForwardResolution;
 import com.example.web.entities.resolution.IResolution;
+
+import java.util.List;
 
 public class ViewAllRequestHandler implements IRequestHandler {
 	private static final String VIEW = "/WEB-INF/view/GetAllData.jsp";
@@ -25,7 +22,7 @@ public class ViewAllRequestHandler implements IRequestHandler {
 	}
 
 	@Override
-	public IResolution parseRequest(IExecutionContext context) throws ServletException, IOException {
+	public IResolution parseRequest(IExecutionContext context){
 		try {
 			List<UserVO> users = accessManager.retrieveUsersWithGroups();
 			context.setAttribute("users", users);

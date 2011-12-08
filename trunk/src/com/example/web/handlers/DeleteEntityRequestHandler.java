@@ -1,9 +1,5 @@
 package com.example.web.handlers;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-
 import com.example.bl.dataaccess.IBLAccessManager;
 import com.example.bl.exceptions.DataWriteException;
 import com.example.bl.exceptions.ValidationException;
@@ -25,7 +21,7 @@ public class DeleteEntityRequestHandler implements IRequestHandler {
 	}
 
 	@Override
-	public IResolution parseRequest(IExecutionContext context) throws ServletException, IOException {
+	public IResolution parseRequest(IExecutionContext context){
 		String objectType = context.getParameter("type");
 		String id = context.getParameter("id");
 		try {

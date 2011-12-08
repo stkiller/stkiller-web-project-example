@@ -1,13 +1,5 @@
 package com.example.test;
 
-import java.util.List;
-
-import junit.framework.Assert;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.example.dal.dataaccess.AccessManager;
 import com.example.dal.dataaccess.IAccessManager;
 import com.example.dal.exceptions.DBException;
@@ -16,13 +8,19 @@ import com.example.dal.factories.DAOFactoryType;
 import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.RoleVO;
 import com.example.dal.valueobject.UserVO;
+import junit.framework.Assert;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import java.util.List;
 
 public class AccessManagerTest {
-	static IAccessManager accessManager;
-	static UserVO refUser;
-	static UserVO refUserWithGroup;
-	static GroupVO refGroup;
-	static RoleVO refRole;
+    private static IAccessManager accessManager;
+    private static UserVO refUser;
+    private static UserVO refUserWithGroup;
+    private static GroupVO refGroup;
+    private static RoleVO refRole;
 
 	@BeforeClass
 	public static void before() {

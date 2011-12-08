@@ -1,17 +1,16 @@
 package com.example.dal.factories.ms_sql;
 
+import com.example.dal.dao.IManyToManyDAO;
+import com.example.dal.factories.IdentityIncrementor;
+import com.example.dal.valueobject.GroupVO;
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.apache.log4j.Logger;
-
-import com.example.dal.dao.IManyToManyDAO;
-import com.example.dal.factories.IdentityIncrementor;
-import com.example.dal.valueobject.GroupVO;
 
 public class MSSqlGroupDAO implements IManyToManyDAO<GroupVO> {
 
@@ -41,7 +40,7 @@ public class MSSqlGroupDAO implements IManyToManyDAO<GroupVO> {
 		Logger.getLogger(getClass()).debug("Remove dependent:"+owner+"|"+dependentID);
 		Statement statement = connection.createStatement();
 		int result = statement.executeUpdate(String.format(REMOVE_ROLE, owner.getId(), dependentID));
-		return 0 < result ? true : false;
+		return 0 < result;
 	}
 
 	@Override
@@ -49,7 +48,7 @@ public class MSSqlGroupDAO implements IManyToManyDAO<GroupVO> {
 		Logger.getLogger(getClass()).debug("Add dependent:"+owner+"|"+dependentID);
 		Statement statement = connection.createStatement();
 		int result = statement.executeUpdate(String.format(ADD_ROLE, owner.getId(), dependentID));
-		return 0 < result ? true : false;
+		return 0 < result;
 	}
 
 	@Override
@@ -83,7 +82,7 @@ public class MSSqlGroupDAO implements IManyToManyDAO<GroupVO> {
 		Statement statement = connection.createStatement();
 		int result = statement
 				.executeUpdate(String.format(UPDATE, item.getId(), item.getName(), item.getDescription()));
-		return 0 < result ? true : false;
+		return 0 < result;
 	}
 
 	@Override
@@ -91,7 +90,7 @@ public class MSSqlGroupDAO implements IManyToManyDAO<GroupVO> {
 		Logger.getLogger(getClass()).debug("Delete group:"+item);
 		Statement statement = connection.createStatement();
 		int result = statement.executeUpdate(String.format(DELETE, item.getId()));
-		return 0 < result ? true : false;
+		return 0 < result;
 	}
 
 	@Override

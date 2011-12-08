@@ -3,12 +3,6 @@
  */
 package com.example.dal.dataaccess;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.example.dal.dao.IBaseDao;
 import com.example.dal.dao.IManyToManyDAO;
 import com.example.dal.exceptions.DBException;
@@ -20,6 +14,12 @@ import com.example.dal.valueobject.GroupVO;
 import com.example.dal.valueobject.RoleVO;
 import com.example.dal.valueobject.UserVO;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author stkiller
  * 
@@ -27,10 +27,10 @@ import com.example.dal.valueobject.UserVO;
 public class AccessManager implements IAccessManager {
 	private static final int TRANSACTION_ISOLATION = Connection.TRANSACTION_REPEATABLE_READ;
 
-	AbstractDAOFactory abFactory;
-	IBaseDao<UserVO> userDAO;
-	IBaseDao<RoleVO> roleDAO;
-	IManyToManyDAO<GroupVO> groupDAO;
+	private AbstractDAOFactory abFactory;
+    private IBaseDao<UserVO> userDAO;
+    private IBaseDao<RoleVO> roleDAO;
+    private IManyToManyDAO<GroupVO> groupDAO;
 
 	/**
 	 * 

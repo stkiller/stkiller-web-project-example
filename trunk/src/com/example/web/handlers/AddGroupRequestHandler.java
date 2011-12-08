@@ -1,11 +1,5 @@
 package com.example.web.handlers;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.ServletException;
-
 import com.example.bl.dataaccess.IBLAccessManager;
 import com.example.bl.exceptions.DataRetrievalException;
 import com.example.bl.exceptions.DataWriteException;
@@ -19,6 +13,9 @@ import com.example.web.entities.resolution.RedirectResolution;
 import com.example.web.helper.AvailableActionType;
 import com.example.web.helper.BeanUtilsHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddGroupRequestHandler implements IRequestHandler {
 	private static final String VIEW = "/WEB-INF/view/AddGroup.jsp";
 	private IBLAccessManager accessManager;
@@ -31,7 +28,7 @@ public class AddGroupRequestHandler implements IRequestHandler {
 	}
 
 	@Override
-	public IResolution parseRequest(IExecutionContext context) throws ServletException, IOException {
+	public IResolution parseRequest(IExecutionContext context){
 		if (!context.isParameterPresent("name")) {
 			try {
 				return parseEditRequest(context);

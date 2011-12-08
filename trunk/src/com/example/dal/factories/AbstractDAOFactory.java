@@ -32,8 +32,6 @@ public abstract class AbstractDAOFactory {
 		this.dbURL = driverName;
 	}
 
-	public static final int POSTGRE = 0;
-
 	/**
 	 * 
 	 * @return IBaseDao<UserVO> DAO that works with specific DB

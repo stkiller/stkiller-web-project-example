@@ -1,14 +1,14 @@
 package com.example.dal.factories.postgre;
 
+import com.example.dal.dao.IBaseDao;
+import com.example.dal.valueobject.RoleVO;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.example.dal.dao.IBaseDao;
-import com.example.dal.valueobject.RoleVO;
 
 public class PostgreRoleDAO implements IBaseDao<RoleVO> {
 	private static final String SELECT_ALL = "select * from roles";
@@ -45,14 +45,14 @@ public class PostgreRoleDAO implements IBaseDao<RoleVO> {
 		Statement statement = connection.createStatement();
 		int result = statement
 				.executeUpdate(String.format(UPDATE, item.getId(), item.getName(), item.getDescription()));
-		return 0 < result ? true : false;
+		return 0 < result;
 	}
 
 	@Override
 	public boolean delete(RoleVO item, Connection connection) throws SQLException {
 		Statement statement = connection.createStatement();
 		int result = statement.executeUpdate(String.format(DELETE, item.getId()));
-		return 0 < result ? true : false;
+		return 0 < result;
 	}
 
 	@Override

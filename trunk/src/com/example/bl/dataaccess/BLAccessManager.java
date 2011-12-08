@@ -79,8 +79,9 @@ public class BLAccessManager implements IBLAccessManager {
 
     public long writeUser(UserVO userVO) throws ValidationException, DataWriteException {
         try {
+            Logger.getLogger(getClass()).debug("Write user:" + userVO);
             IValidationResult result = userValidator.isValid(userVO);
-            if (!result.isValid()) {
+            if (result.isInvalid()) {
                 throw new ValidationException(result);
             }
             return accessManager.writeUser(userVO);
@@ -92,8 +93,9 @@ public class BLAccessManager implements IBLAccessManager {
 
     public boolean removeUser(UserVO userVO) throws ValidationException, DataWriteException {
         try {
+            Logger.getLogger(getClass()).debug("Remove user:" + userVO);
             IValidationResult result = userValidator.isIdentityValid(userVO);
-            if (!result.isValid()) {
+            if (result.isInvalid()) {
                 throw new ValidationException(result);
             }
             return accessManager.removeUser(userVO);
@@ -126,8 +128,9 @@ public class BLAccessManager implements IBLAccessManager {
 
     public long writeGroup(GroupVO groupVO) throws ValidationException, DataWriteException {
         try {
+            Logger.getLogger(getClass()).debug("Write group:" + groupVO);
             IValidationResult result = groupValidator.isValid(groupVO);
-            if (!result.isValid()) {
+            if (result.isInvalid()) {
                 throw new ValidationException(result);
             }
             return accessManager.writeGroup(groupVO);
@@ -139,8 +142,9 @@ public class BLAccessManager implements IBLAccessManager {
 
     public boolean removeGroup(GroupVO groupVO) throws ValidationException, DataWriteException {
         try {
+            Logger.getLogger(getClass()).debug("Remove group: "+groupVO);
             IValidationResult result = groupValidator.isIdentityValid(groupVO);
-            if (!result.isValid()) {
+            if (result.isInvalid()) {
                 throw new ValidationException(result);
             }
             return accessManager.removeGroup(groupVO);
@@ -173,8 +177,9 @@ public class BLAccessManager implements IBLAccessManager {
 
     public long writeRole(RoleVO roleVO) throws ValidationException, DataWriteException {
         try {
+            Logger.getLogger(getClass()).debug("Write role: " + roleVO);
             IValidationResult result = roleValidator.isValid(roleVO);
-            if (!result.isValid()) {
+            if (result.isInvalid()) {
                 throw new ValidationException(result);
             }
             return accessManager.writeRole(roleVO);
@@ -186,8 +191,9 @@ public class BLAccessManager implements IBLAccessManager {
 
     public boolean removeRole(RoleVO roleVO) throws ValidationException, DataWriteException {
         try {
+            Logger.getLogger(getClass()).debug("Remove role: " + roleVO);
             IValidationResult result = roleValidator.isIdentityValid(roleVO);
-            if (!result.isValid()) {
+            if (result.isInvalid()) {
                 throw new ValidationException(result);
             }
             return accessManager.removeRole(roleVO);
